@@ -15,7 +15,6 @@ clientsClaim()
 self.addEventListener('sync', (event: any) => {
   if (event.tag === 'sync-data') {
     console.log('[SW] Background sync triggered')
-    // Since SW can't do P2P, we send a message to all clients to start sync
     event.waitUntil(
       self.clients.matchAll().then((clients) => {
         clients.forEach((client) => {
