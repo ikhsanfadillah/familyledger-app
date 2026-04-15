@@ -6,7 +6,10 @@ import { routeTree } from './routeTree.gen'
 
 // ── Router ──────────────────────────────────────────────────────────────
 
-const router = createRouter({ routeTree })
+const router = createRouter({ 
+  routeTree,
+  basepath: import.meta.env.BASE_URL,
+})
 
 declare module '@tanstack/solid-router' {
   interface Register {
