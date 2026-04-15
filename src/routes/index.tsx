@@ -49,7 +49,7 @@ function OnboardingPage() {
     console.log("categoriesToSave", categoriesToSave);
     await saveCategories(categoriesToSave);
 
-    // 3. Navigate to Dashboard
+    // 3. Navigate to Dashboard123
     navigate({ to: "/dashboard" });
   };
 
@@ -103,7 +103,7 @@ function OnboardingPage() {
             <div class="w-full h-auto mb-8 rounded-2xl bg-blue-50/50 flex items-center justify-center overflow-hidden relative border border-blue-100/50">
               {/* Using the generated image */}
               <img
-                src="/onboarding-hero.png"
+                src="onboarding-hero.png"
                 alt="FamilyLedger Welcome"
                 class="w-full h-full object"
               />
