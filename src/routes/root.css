@@ -1,0 +1,573 @@
+/*
+ * shadcn-bridge.css
+ *
+ * Multi-theme design system for FamilyLedger
+ * Stack: UnoCSS + presetWind (NO Tailwind)
+ *
+ * IMPORTANT: Color vars are raw HSL channels (no hsl() wrapper)
+ * because UnoCSS presetWind wraps them itself via color-mix().
+ * e.g. --primary: 221 83% 53%  →  hsl(221 83% 53%)
+ *
+ * Themes are activated via [data-theme="xxx"] on <html>.
+ * Import once in your entry file:
+ *   import './root.css'
+ */
+
+/* ======================================================================
+   THEME: PROFESSIONAL
+   Sharp edges, muted corporate palette — MS Office inspired.
+   Zero border-radius for that enterprise feel.
+   ====================================================================== */
+
+:root,
+[data-theme="professional"] {
+  --radius: 0px;
+
+  /* Surfaces */
+  --background: 220 14% 96%;
+  --foreground: 216 28% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 216 28% 12%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 216 28% 12%;
+
+  /* Primary — MS Office steel blue */
+  --primary: 214 55% 38%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary */
+  --secondary: 220 13% 91%;
+  --secondary-foreground: 216 28% 17%;
+
+  /* Muted */
+  --muted: 218 14% 93%;
+  --muted-foreground: 215 12% 48%;
+
+  /* Accent */
+  --accent: 152 56% 30%;
+  --accent-foreground: 0 0% 100%;
+
+  /* Destructive */
+  --destructive: 0 72% 45%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* Border / Input / Ring */
+  --border: 216 12% 84%;
+  --input: 216 12% 84%;
+  --ring: 214 55% 38%;
+
+  /* Charts */
+  --chart-1: 214 55% 38%;
+  --chart-2: 152 56% 30%;
+  --chart-3: 30 68% 50%;
+  --chart-4: 280 45% 52%;
+  --chart-5: 0 72% 45%;
+
+  /* Sidebar */
+  --sidebar: 220 16% 94%;
+  --sidebar-foreground: 216 28% 12%;
+  --sidebar-primary: 214 55% 38%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 220 13% 89%;
+  --sidebar-accent-foreground: 216 28% 17%;
+  --sidebar-border: 216 12% 84%;
+  --sidebar-ring: 214 55% 38%;
+
+  --brand-color: var(--primary);
+  --brand-color-foreground: var(--primary-foreground);
+}
+
+[data-theme="professional"].dark {
+  --background: 220 20% 10%;
+  --foreground: 215 20% 90%;
+  --card: 220 20% 13%;
+  --card-foreground: 215 20% 90%;
+  --popover: 220 20% 13%;
+  --popover-foreground: 215 20% 90%;
+
+  --primary: 214 60% 55%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 220 15% 18%;
+  --secondary-foreground: 215 20% 90%;
+
+  --muted: 220 15% 18%;
+  --muted-foreground: 215 15% 60%;
+
+  --accent: 152 50% 38%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 220 15% 22%;
+  --input: 220 15% 22%;
+  --ring: 214 60% 55%;
+
+  --chart-1: 214 60% 55%;
+  --chart-2: 152 50% 38%;
+  --chart-3: 30 68% 55%;
+  --chart-4: 280 50% 58%;
+  --chart-5: 0 72% 51%;
+
+  --sidebar: 220 20% 12%;
+  --sidebar-foreground: 215 20% 90%;
+  --sidebar-primary: 214 60% 55%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 220 15% 20%;
+  --sidebar-accent-foreground: 215 20% 90%;
+  --sidebar-border: 220 15% 22%;
+  --sidebar-ring: 214 60% 55%;
+
+  --brand-color: var(--primary);
+  --brand-color-foreground: var(--primary-foreground);
+}
+
+/* ======================================================================
+   THEME: OCEANIC (DEFAULT)
+   Deep sea blues with refreshing teal accents.
+   Smooth, modern rounded corners.
+   ====================================================================== */
+
+[data-theme="oceanic"] {
+  --radius: 0.625rem;
+
+  /* Surfaces */
+  --background: 0 0% 100%;
+  --foreground: 224 71% 4%;
+  --card: 0 0% 100%;
+  --card-foreground: 224 71% 4%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 224 71% 4%;
+
+  /* Primary — vibrant sky blue */
+  --primary: 199 89% 48%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary */
+  --secondary: 192 31% 90%;
+  --secondary-foreground: 196 64% 24%;
+
+  /* Muted */
+  --muted: 192 30% 95%;
+  --muted-foreground: 196 15% 46%;
+
+  /* Accent */
+  --accent: 168 72% 47%;
+  --accent-foreground: 0 0% 100%;
+
+  /* Destructive */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* Border / Input / Ring */
+  --border: 192 31% 88%;
+  --input: 192 31% 88%;
+  --ring: 199 89% 48%;
+
+  /* Charts */
+  --chart-1: 199 89% 48%;
+  --chart-2: 168 72% 47%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+
+  /* Sidebar */
+  --sidebar: 192 31% 95%;
+  --sidebar-foreground: 224 71% 4%;
+  --sidebar-primary: 199 89% 48%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 192 31% 88%;
+  --sidebar-accent-foreground: 196 64% 24%;
+  --sidebar-border: 192 31% 88%;
+  --sidebar-ring: 199 89% 48%;
+
+  --brand-color: var(--primary);
+  --brand-color-foreground: var(--primary-foreground);
+}
+
+[data-theme="oceanic"].dark,
+.dark {
+  --background: 200 30% 8%;
+  --foreground: 190 30% 96%;
+  --card: 200 30% 11%;
+  --card-foreground: 190 30% 96%;
+  --popover: 200 30% 11%;
+  --popover-foreground: 190 30% 96%;
+
+  --primary: 199 89% 55%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 200 25% 16%;
+  --secondary-foreground: 190 30% 96%;
+
+  --muted: 200 25% 16%;
+  --muted-foreground: 196 18% 58%;
+
+  --accent: 168 65% 42%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 200 25% 20%;
+  --input: 200 25% 20%;
+  --ring: 199 89% 55%;
+
+  --chart-1: 199 89% 55%;
+  --chart-2: 168 65% 42%;
+  --chart-3: 30 80% 55%;
+  --chart-4: 280 65% 60%;
+  --chart-5: 340 75% 55%;
+
+  --sidebar: 200 30% 10%;
+  --sidebar-foreground: 190 30% 96%;
+  --sidebar-primary: 199 89% 55%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 200 25% 18%;
+  --sidebar-accent-foreground: 190 30% 96%;
+  --sidebar-border: 200 25% 20%;
+  --sidebar-ring: 199 89% 55%;
+
+  --brand-color: var(--primary);
+  --brand-color-foreground: var(--primary-foreground);
+}
+
+/* ======================================================================
+   THEME: ROSEWOOD
+   Warm & elegant — rose primary with dusty pink and orange accents.
+   Gently rounded, inviting.
+   ====================================================================== */
+
+[data-theme="rosewood"] {
+  --radius: 0.75rem;
+
+  /* Surfaces */
+  --background: 0 0% 100%;
+  --foreground: 346 25% 10%;
+  --card: 350 30% 99%;
+  --card-foreground: 346 25% 10%;
+  --popover: 350 30% 99%;
+  --popover-foreground: 346 25% 10%;
+
+  /* Primary — rich rose */
+  --primary: 347 77% 50%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary */
+  --secondary: 350 80% 96%;
+  --secondary-foreground: 346 50% 25%;
+
+  /* Muted */
+  --muted: 348 40% 96%;
+  --muted-foreground: 346 15% 50%;
+
+  /* Accent — warm orange */
+  --accent: 25 95% 53%;
+  --accent-foreground: 0 0% 100%;
+
+  /* Destructive */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* Border / Input / Ring */
+  --border: 348 30% 90%;
+  --input: 348 30% 90%;
+  --ring: 347 77% 50%;
+
+  /* Charts */
+  --chart-1: 347 77% 50%;
+  --chart-2: 25 95% 53%;
+  --chart-3: 160 60% 45%;
+  --chart-4: 270 65% 55%;
+  --chart-5: 199 89% 48%;
+
+  /* Sidebar */
+  --sidebar: 348 30% 96%;
+  --sidebar-foreground: 346 25% 10%;
+  --sidebar-primary: 347 77% 50%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 348 30% 92%;
+  --sidebar-accent-foreground: 346 50% 25%;
+  --sidebar-border: 348 30% 90%;
+  --sidebar-ring: 347 77% 50%;
+
+  --brand-color: var(--primary);
+  --brand-color-foreground: var(--primary-foreground);
+}
+
+[data-theme="rosewood"].dark {
+  --background: 346 25% 8%;
+  --foreground: 348 25% 95%;
+  --card: 346 25% 11%;
+  --card-foreground: 348 25% 95%;
+  --popover: 346 25% 11%;
+  --popover-foreground: 348 25% 95%;
+
+  --primary: 347 80% 58%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 346 20% 16%;
+  --secondary-foreground: 348 25% 95%;
+
+  --muted: 346 20% 16%;
+  --muted-foreground: 346 15% 55%;
+
+  --accent: 25 90% 50%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 346 20% 20%;
+  --input: 346 20% 20%;
+  --ring: 347 80% 58%;
+
+  --chart-1: 347 80% 58%;
+  --chart-2: 25 90% 50%;
+  --chart-3: 160 55% 42%;
+  --chart-4: 270 60% 58%;
+  --chart-5: 199 85% 52%;
+
+  --sidebar: 346 25% 10%;
+  --sidebar-foreground: 348 25% 95%;
+  --sidebar-primary: 347 80% 58%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 346 20% 18%;
+  --sidebar-accent-foreground: 348 25% 95%;
+  --sidebar-border: 346 20% 20%;
+  --sidebar-ring: 347 80% 58%;
+
+  --brand-color: var(--primary);
+  --brand-color-foreground: var(--primary-foreground);
+}
+
+/* ======================================================================
+   THEME: EMERALD
+   Rich green & gold — classic finance & growth aesthetic.
+   Balanced radii with a refined feel.
+   ====================================================================== */
+
+[data-theme="emerald"] {
+  --radius: 0.5rem;
+
+  /* Surfaces */
+  --background: 150 12% 98%;
+  --foreground: 150 30% 8%;
+  --card: 150 20% 99%;
+  --card-foreground: 150 30% 8%;
+  --popover: 150 20% 99%;
+  --popover-foreground: 150 30% 8%;
+
+  /* Primary — emerald green */
+  --primary: 160 84% 39%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary */
+  --secondary: 152 50% 93%;
+  --secondary-foreground: 152 40% 18%;
+
+  /* Muted */
+  --muted: 150 25% 95%;
+  --muted-foreground: 150 12% 48%;
+
+  /* Accent — warm gold */
+  --accent: 38 92% 45%;
+  --accent-foreground: 0 0% 100%;
+
+  /* Destructive */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* Border / Input / Ring */
+  --border: 150 20% 88%;
+  --input: 150 20% 88%;
+  --ring: 160 84% 39%;
+
+  /* Charts */
+  --chart-1: 160 84% 39%;
+  --chart-2: 38 92% 45%;
+  --chart-3: 199 89% 48%;
+  --chart-4: 280 55% 55%;
+  --chart-5: 347 77% 50%;
+
+  /* Sidebar */
+  --sidebar: 150 18% 95%;
+  --sidebar-foreground: 150 30% 8%;
+  --sidebar-primary: 160 84% 39%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 152 30% 90%;
+  --sidebar-accent-foreground: 152 40% 18%;
+  --sidebar-border: 150 20% 88%;
+  --sidebar-ring: 160 84% 39%;
+
+  --brand-color: var(--primary);
+  --brand-color-foreground: var(--primary-foreground);
+}
+
+[data-theme="emerald"].dark {
+  --background: 152 25% 7%;
+  --foreground: 150 25% 95%;
+  --card: 152 25% 10%;
+  --card-foreground: 150 25% 95%;
+  --popover: 152 25% 10%;
+  --popover-foreground: 150 25% 95%;
+
+  --primary: 160 75% 45%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 152 20% 15%;
+  --secondary-foreground: 150 25% 95%;
+
+  --muted: 152 20% 15%;
+  --muted-foreground: 150 15% 55%;
+
+  --accent: 38 85% 48%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 152 18% 20%;
+  --input: 152 18% 20%;
+  --ring: 160 75% 45%;
+
+  --chart-1: 160 75% 45%;
+  --chart-2: 38 85% 48%;
+  --chart-3: 199 85% 52%;
+  --chart-4: 280 55% 58%;
+  --chart-5: 347 80% 55%;
+
+  --sidebar: 152 25% 9%;
+  --sidebar-foreground: 150 25% 95%;
+  --sidebar-primary: 160 75% 45%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 152 20% 17%;
+  --sidebar-accent-foreground: 150 25% 95%;
+  --sidebar-border: 152 18% 20%;
+  --sidebar-ring: 160 75% 45%;
+
+  --brand-color: var(--primary);
+  --brand-color-foreground: var(--primary-foreground);
+}
+
+/* ======================================================================
+   THEME: AMETHYST
+   Regal purple palette with lilac & pink highlights.
+   Pill-friendly larger radii.
+   ====================================================================== */
+
+[data-theme="amethyst"] {
+  --radius: 0.75rem;
+
+  /* Surfaces */
+  --background: 270 10% 99%;
+  --foreground: 270 30% 8%;
+  --card: 270 20% 99%;
+  --card-foreground: 270 30% 8%;
+  --popover: 270 20% 99%;
+  --popover-foreground: 270 30% 8%;
+
+  /* Primary — vivid violet */
+  --primary: 263 70% 50%;
+  --primary-foreground: 0 0% 100%;
+
+  /* Secondary */
+  --secondary: 265 60% 95%;
+  --secondary-foreground: 263 45% 25%;
+
+  /* Muted */
+  --muted: 265 30% 96%;
+  --muted-foreground: 265 12% 48%;
+
+  /* Accent — vivid pink */
+  --accent: 330 81% 60%;
+  --accent-foreground: 0 0% 100%;
+
+  /* Destructive */
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* Border / Input / Ring */
+  --border: 265 30% 90%;
+  --input: 265 30% 90%;
+  --ring: 263 70% 50%;
+
+  /* Charts */
+  --chart-1: 263 70% 50%;
+  --chart-2: 330 81% 60%;
+  --chart-3: 199 89% 48%;
+  --chart-4: 160 60% 45%;
+  --chart-5: 38 92% 45%;
+
+  /* Sidebar */
+  --sidebar: 265 25% 96%;
+  --sidebar-foreground: 270 30% 8%;
+  --sidebar-primary: 263 70% 50%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 265 30% 92%;
+  --sidebar-accent-foreground: 263 45% 25%;
+  --sidebar-border: 265 30% 90%;
+  --sidebar-ring: 263 70% 50%;
+
+  --brand-color: var(--primary);
+  --brand-color-foreground: var(--primary-foreground);
+}
+
+[data-theme="amethyst"].dark {
+  --background: 270 25% 7%;
+  --foreground: 265 25% 95%;
+  --card: 270 25% 10%;
+  --card-foreground: 265 25% 95%;
+  --popover: 270 25% 10%;
+  --popover-foreground: 265 25% 95%;
+
+  --primary: 263 75% 60%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 270 20% 16%;
+  --secondary-foreground: 265 25% 95%;
+
+  --muted: 270 20% 16%;
+  --muted-foreground: 265 15% 55%;
+
+  --accent: 330 75% 55%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 270 18% 20%;
+  --input: 270 18% 20%;
+  --ring: 263 75% 60%;
+
+  --chart-1: 263 75% 60%;
+  --chart-2: 330 75% 55%;
+  --chart-3: 199 85% 52%;
+  --chart-4: 160 55% 42%;
+  --chart-5: 38 85% 48%;
+
+  --sidebar: 270 25% 9%;
+  --sidebar-foreground: 265 25% 95%;
+  --sidebar-primary: 263 75% 60%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 270 20% 18%;
+  --sidebar-accent-foreground: 265 25% 95%;
+  --sidebar-border: 270 18% 20%;
+  --sidebar-ring: 263 75% 60%;
+
+  --brand-color: var(--primary);
+  --brand-color-foreground: var(--primary-foreground);
+}
+
+/* ─── Base resets ────────────────────────────────────────── */
+*,
+::before,
+::after {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+}

@@ -1,0 +1,44 @@
+{
+  "name": "familyledger-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ark-ui/solid": "^5.35.0",
+    "@tanstack/router-plugin": "^1.167.12",
+    "@tanstack/solid-form": "^1.28.6",
+    "@tanstack/solid-router": "^1.168.9",
+    "chart.js": "^4.5.1",
+    "date-fns": "^4.1.0",
+    "dexie": "^4.4.2",
+    "html5-qrcode": "^2.3.8",
+    "nanoid": "^5.1.7",
+    "peerjs": "^1.5.5",
+    "qrcode": "^1.5.4",
+    "solid-js": "^1.9.12",
+    "tailwind-merge": "^3.5.0",
+    "tailwind-variants": "^3.2.2",
+    "yjs": "^13.6.30"
+  },
+  "devDependencies": {
+    "@iconify/json": "^2.2.459",
+    "@types/node": "^24.12.2",
+    "@types/qrcode": "^1.5.6",
+    "@unocss/preset-uno": "^66.6.7",
+    "typescript": "~6.0.2",
+    "unocss": "^66.6.7",
+    "unocss-preset-animations": "^1.3.0",
+    "unocss-preset-shadcn": "^1.0.1",
+    "unplugin-icons": "^23.0.1",
+    "vite": "^8.0.4",
+    "vite-plugin-pwa": "^1.2.0",
+    "vite-plugin-solid": "^2.11.12",
+    "workbox-window": "^7.4.0"
+  }
+}
