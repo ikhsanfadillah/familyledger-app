@@ -14,6 +14,42 @@
  */
 
 /* ======================================================================
+   DAISY UI COLOR SYSTEM MAPPINGS
+   Bridges DaisyUI CSS variables into the dynamic Shadcn architecture.
+   ====================================================================== */
+:root {
+  --color-primary: var(--primary);
+  --color-primary-content: var(--primary-foreground);
+  
+  --color-secondary: var(--secondary);
+  --color-secondary-content: var(--secondary-foreground);
+  
+  --color-accent: var(--accent);
+  --color-accent-content: var(--accent-foreground);
+  
+  --color-neutral: var(--muted);
+  --color-neutral-content: var(--muted-foreground);
+  
+  --color-base-100: var(--background);
+  --color-base-200: var(--card); /* Assuming card is slightly elevated */
+  --color-base-300: var(--border);
+  --color-base-content: var(--foreground);
+  
+  /* Status Colors */
+  --color-info: 214 84% 56%;
+  --color-info-content: 0 0% 100%;
+  
+  --color-success: 142 71% 45%;
+  --color-success-content: 0 0% 100%;
+  
+  --color-warning: 38 92% 50%;
+  --color-warning-content: 0 0% 100%;
+  
+  --color-error: var(--destructive);
+  --color-error-content: var(--destructive-foreground);
+}
+
+/* ======================================================================
    THEME: PROFESSIONAL
    Sharp edges, muted corporate palette — MS Office inspired.
    Zero border-radius for that enterprise feel.
@@ -22,6 +58,7 @@
 :root,
 [data-theme="professional"] {
   --radius: 0px;
+  --radius-card: 0px;
 
   /* Surfaces */
   --background: 220 14% 96%;
@@ -131,6 +168,7 @@
 
 [data-theme="oceanic"] {
   --radius: 0.625rem;
+  --radius-card: 1rem;
 
   /* Surfaces */
   --background: 0 0% 100%;
@@ -241,6 +279,7 @@
 
 [data-theme="rosewood"] {
   --radius: 0.75rem;
+  --radius-card: 1.05rem;
 
   /* Surfaces */
   --background: 0 0% 100%;
@@ -350,6 +389,7 @@
 
 [data-theme="emerald"] {
   --radius: 0.5rem;
+  --radius-card: 0.75rem;
 
   /* Surfaces */
   --background: 150 12% 98%;
@@ -459,6 +499,7 @@
 
 [data-theme="amethyst"] {
   --radius: 0.75rem;
+  --radius-card: 1.5rem;
 
   /* Surfaces */
   --background: 270 10% 99%;

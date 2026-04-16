@@ -1,5 +1,12 @@
 import { createFileRoute } from "@tanstack/solid-router";
-import { createSignal, onMount, createEffect, For, Show, onCleanup } from "solid-js";
+import {
+  createSignal,
+  onMount,
+  createEffect,
+  For,
+  Show,
+  onCleanup,
+} from "solid-js";
 import { syncService } from "~/services/sync.service";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import QRCode from "qrcode";
@@ -102,7 +109,7 @@ function SyncPage() {
               type="text"
               value={tempName()}
               onInput={(e) => setTempName(e.currentTarget.value)}
-              class="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+              class="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20"
             />
             <button
               onClick={handleSaveName}
@@ -126,8 +133,14 @@ function SyncPage() {
               disabled={!syncService.peerId}
               class="px-4 bg-gray-50 border border-gray-200 rounded-xl text-gray-600 hover:bg-gray-100 active:scale-95 transition-all flex items-center justify-center gap-2"
             >
-              <div class={copied() ? "i-lucide-check text-green-500" : "i-lucide-copy"} />
-              <span class="text-xs font-semibold">{copied() ? "Tersalin" : "Salin"}</span>
+              <div
+                class={
+                  copied() ? "i-lucide-check text-green-500" : "i-lucide-copy"
+                }
+              />
+              <span class="text-xs font-semibold">
+                {copied() ? "Tersalin" : "Salin"}
+              </span>
             </button>
           </div>
         </div>
@@ -135,12 +148,18 @@ function SyncPage() {
         <div class="flex items-center gap-2">
           <div
             class={`w-2 h-2 rounded-full ${
-              syncService.status === "online" ? "bg-green-500" : 
-              syncService.status === "standby" ? "bg-amber-500" : "bg-red-500"
+              syncService.status === "online"
+                ? "bg-green-500"
+                : syncService.status === "standby"
+                  ? "bg-amber-500"
+                  : "bg-red-500"
             }`}
           />
           <span class="text-sm font-medium text-gray-700 capitalize">
-            Status: {syncService.status === "standby" ? "Standby (Tab Lain Aktif)" : syncService.status}
+            Status:{" "}
+            {syncService.status === "standby"
+              ? "Standby (Tab Lain Aktif)"
+              : syncService.status}
           </span>
         </div>
 
@@ -148,7 +167,8 @@ function SyncPage() {
           <div class="p-3 bg-amber-50 border border-amber-100 rounded-xl flex items-start gap-3 mt-2">
             <div class="i-lucide-info text-amber-600 mt-0.5" />
             <p class="text-[11px] text-amber-800 leading-relaxed">
-              Sinkronisasi sedang dikelola oleh tab lain. Tutup tab ini atau tab lainnya untuk beralih kontrol.
+              Sinkronisasi sedang dikelola oleh tab lain. Tutup tab ini atau tab
+              lainnya untuk beralih kontrol.
             </p>
           </div>
         </Show>
@@ -189,13 +209,18 @@ function SyncPage() {
               <div class="i-lucide-qr-code" />
               Metode 1: Scan QR
             </div>
-            
-            <Show when={syncService.isLeader} fallback={
-              <div class="py-10 text-center flex flex-col items-center gap-3">
-                <div class="i-lucide-lock text-gray-300 text-3xl" />
-                <p class="text-xs text-gray-400 px-4">Scanner hanya aktif di tab utama.</p>
-              </div>
-            }>
+
+            <Show
+              when={syncService.isLeader}
+              fallback={
+                <div class="py-10 text-center flex flex-col items-center gap-3">
+                  <div class="i-lucide-lock text-gray-300 text-3xl" />
+                  <p class="text-xs text-gray-400 px-4">
+                    Scanner hanya aktif di tab utama.
+                  </p>
+                </div>
+              }
+            >
               <Show
                 when={qrDataUrl()}
                 fallback={
@@ -239,7 +264,9 @@ function SyncPage() {
 
           <div class="flex items-center gap-3">
             <div class="flex-1 h-px bg-gray-100" />
-            <span class="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Atau</span>
+            <span class="text-[10px] font-bold text-gray-300 uppercase tracking-widest">
+              Atau
+            </span>
             <div class="flex-1 h-px bg-gray-100" />
           </div>
 
@@ -256,7 +283,7 @@ function SyncPage() {
                 value={manualPeerId()}
                 onInput={(e) => setManualPeerId(e.currentTarget.value)}
                 disabled={!syncService.isLeader}
-                class="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:opacity-50"
+                class="flex-1 px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 disabled:opacity-50"
               />
               <button
                 onClick={handleManualConnect}
@@ -267,7 +294,8 @@ function SyncPage() {
               </button>
             </div>
             <p class="text-[11px] text-gray-400 leading-relaxed italic">
-              Peer ID perangkat lain bisa ditemukan di bagian "Informasi Perangkat" pada halaman Sinkron mereka.
+              Peer ID perangkat lain bisa ditemukan di bagian "Informasi
+              Perangkat" pada halaman Sinkron mereka.
             </p>
           </div>
         </div>

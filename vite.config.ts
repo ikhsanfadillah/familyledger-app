@@ -8,12 +8,12 @@ import path from 'node:path'
 
 export default defineConfig({
   plugins: [
+    UnoCSS(),
     tanstackRouter({
       target: 'solid',
       autoCodeSplitting: true,
     }),
     solid(),
-    UnoCSS(),
     Icons({ compiler: 'solid' }),
     VitePWA({
       strategies: 'injectManifest',

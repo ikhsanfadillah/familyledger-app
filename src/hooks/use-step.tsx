@@ -27,8 +27,14 @@ type SetStepCallbackType = (step: number | ((step: number) => number)) => void;
 // Core Hook
 // ============================================================================
 
-export function useStep(maxStep: number): StepContextValue {
-  const [currentStep, setCurrentStep] = createSignal(1);
+export function useStep({
+  maxStep,
+  startStep = 1,
+}: {
+  maxStep: number;
+  startStep?: number;
+}): StepContextValue {
+  const [currentStep, setCurrentStep] = createSignal(startStep);
 
   const canGoToNextStep = createMemo(() => currentStep() + 1 <= maxStep);
   const canGoToPrevStep = createMemo(() => currentStep() - 1 > 0);

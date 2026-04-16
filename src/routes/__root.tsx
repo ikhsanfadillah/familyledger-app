@@ -12,6 +12,7 @@ import BudgetModal from "~/components/budget/BudgetModal";
 import { Drawer } from "~/components/ui/drawer";
 import type { Transaction, Budget } from "~/db/schema";
 import "./root.css";
+import { Card } from "~/components/ui/card";
 
 const navItems = [
   {
@@ -53,7 +54,11 @@ const navItems = [
 ];
 
 const RootLayout: Component = () => {
-  return <Outlet />;
+  return (
+    <div class="max-w-md mx-auto shadow-lg">
+      <Outlet />
+    </div>
+  );
 };
 
 export const Route = createRootRoute({
