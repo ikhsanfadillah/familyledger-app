@@ -17,13 +17,15 @@
     "chart.js": "^4.5.1",
     "date-fns": "^4.1.0",
     "dexie": "^4.4.2",
+    "dexie-encrypted": "^4.2.0-beta.2",
     "html5-qrcode": "^2.3.8",
     "nanoid": "^5.1.7",
-    "peerjs": "^1.5.5",
     "qrcode": "^1.5.4",
     "solid-js": "^1.9.12",
     "tailwind-merge": "^3.5.0",
     "tailwind-variants": "^3.2.2",
+    "y-indexeddb": "^9.0.12",
+    "y-webrtc": "^10.3.0",
     "yjs": "^13.6.30"
   },
   "devDependencies": {

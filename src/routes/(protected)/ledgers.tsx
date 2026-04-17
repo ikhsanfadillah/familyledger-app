@@ -9,15 +9,17 @@ import { Html5QrcodeScanner } from "html5-qrcode";
 import QRCode from "qrcode";
 import { ledgerStore } from "~/stores/ledgerStore";
 import { coreDb } from "~/db/schema";
+import { CreateLedgerModal } from "~/components/ledger/CreateLedgerModal";
 
-export const Route = createFileRoute("/(protected)/sync")({
-  component: SyncPage,
+export const Route = createFileRoute("/(protected)/ledgers")({
+  component: LedgersPage,
 });
 
-function SyncPage() {
+function LedgersPage() {
   const [qrDataUrl, setQrDataUrl] = createSignal<string>("");
   const [isScanning, setIsScanning] = createSignal(false);
   const [copied, setCopied] = createSignal(false);
+  const [isCreateModalOpen, setIsCreateModalOpen] = createSignal(false);
   let scanner: Html5QrcodeScanner | null = null;
 
   createEffect(async () => {
@@ -139,35 +141,40 @@ function SyncPage() {
   };
 
   return (
-    <div class="flex flex-col gap-6 pb-20">
-      <header class="flex flex-col gap-1">
-        <h1 class="text-2xl font-bold text-gray-900">Berbagi Ledger</h1>
-        <p class="text-sm text-gray-500">
-          Undang orang lain ke <b>{ledgerStore.activeLedger()?.name}</b> Anda.
-        </p>
+    <div class="flex flex-col gap-6 pb-24">
+      <header class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">Manajemen Ledger</h1>
+          <p class="text-sm text-gray-500">
+            Kelola ruang kerja keuangan Anda.
+          </p>
+        </div>
+        <button
+          onClick={() => setIsCreateModalOpen(true)}
+          class="w-10 h-10 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center hover:bg-blue-100 transition-colors shadow-sm"
+        >
+          <div class="i-lucide-plus text-xl" />
+        </button>
       </header>
 
       {/* Info Card */}
       <section class="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-3">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
-            <div class="i-lucide-users text-xl" />
+          <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
+            <div class="i-lucide-network text-xl" />
           </div>
           <div>
-            <h2 class="font-semibold text-gray-900">Sinkronisasi P2P Aktif</h2>
+            <h2 class="font-semibold text-gray-900">Status Sinkronisasi</h2>
             <p class="text-xs text-gray-500">
-              {ledgerStore.connectedPeers()} perangkat saat ini terhubung ke ledger ini.
+              {ledgerStore.connectedPeers()} perangkat saat ini terhubung ke ledger <b>{ledgerStore.activeLedger()?.name}</b>.
             </p>
           </div>
         </div>
-        <p class="text-xs text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100 mt-2">
-          Perangkat akan saling terhubung secara otomatis selama aplikasi terbuka. Tidak perlu memencet tombol sinkron.
-        </p>
       </section>
 
       {/* Invite QR */}
       <section class="flex flex-col gap-4 mt-2">
-        <h2 class="text-lg font-bold text-gray-900 px-1">Undang Anggota</h2>
+        <h2 class="text-lg font-bold text-gray-900 px-1">Undang ke {ledgerStore.activeLedger()?.name}</h2>
 
         <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-6">
           <div class="flex flex-col items-center gap-4">
@@ -189,7 +196,7 @@ function SyncPage() {
               />
             </Show>
             <p class="text-xs text-center text-gray-500 max-w-[200px]">
-              Minta rekan Anda untuk memindai QR ini dari aplikasi mereka.
+              Minta anggota keluarga untuk memindai QR ini dari perangkat mereka.
             </p>
 
             <button
@@ -249,6 +256,11 @@ function SyncPage() {
           </button>
         </div>
       </section>
+
+      <CreateLedgerModal 
+        isOpen={isCreateModalOpen()} 
+        onClose={() => setIsCreateModalOpen(false)} 
+      />
     </div>
   );
 }

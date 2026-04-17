@@ -14,7 +14,7 @@ function OnboardingPage() {
   const navigate = useNavigate();
   // Using our custom useStep hook, expecting 3 steps
   const [currentStep, { goToNextStep, goToPrevStep }] = useStep({
-    startStep: 3,
+    startStep: 1,
     maxStep: 3,
   });
 

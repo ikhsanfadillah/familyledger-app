@@ -15,6 +15,7 @@ import { Route as protectedTransactionsRouteImport } from './routes/(protected)/
 import { Route as protectedSyncRouteImport } from './routes/(protected)/sync'
 import { Route as protectedSettingsRouteImport } from './routes/(protected)/settings'
 import { Route as protectedReportsRouteImport } from './routes/(protected)/reports'
+import { Route as protectedLedgersRouteImport } from './routes/(protected)/ledgers'
 import { Route as protectedDashboardRouteImport } from './routes/(protected)/dashboard'
 import { Route as protectedBudgetsRouteImport } from './routes/(protected)/budgets'
 
@@ -47,6 +48,11 @@ const protectedReportsRoute = protectedReportsRouteImport.update({
   path: '/reports',
   getParentRoute: () => protectedRouteRoute,
 } as any)
+const protectedLedgersRoute = protectedLedgersRouteImport.update({
+  id: '/ledgers',
+  path: '/ledgers',
+  getParentRoute: () => protectedRouteRoute,
+} as any)
 const protectedDashboardRoute = protectedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -62,6 +68,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/budgets': typeof protectedBudgetsRoute
   '/dashboard': typeof protectedDashboardRoute
+  '/ledgers': typeof protectedLedgersRoute
   '/reports': typeof protectedReportsRoute
   '/settings': typeof protectedSettingsRoute
   '/sync': typeof protectedSyncRoute
@@ -71,6 +78,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/budgets': typeof protectedBudgetsRoute
   '/dashboard': typeof protectedDashboardRoute
+  '/ledgers': typeof protectedLedgersRoute
   '/reports': typeof protectedReportsRoute
   '/settings': typeof protectedSettingsRoute
   '/sync': typeof protectedSyncRoute
@@ -82,6 +90,7 @@ export interface FileRoutesById {
   '/(protected)': typeof protectedRouteRouteWithChildren
   '/(protected)/budgets': typeof protectedBudgetsRoute
   '/(protected)/dashboard': typeof protectedDashboardRoute
+  '/(protected)/ledgers': typeof protectedLedgersRoute
   '/(protected)/reports': typeof protectedReportsRoute
   '/(protected)/settings': typeof protectedSettingsRoute
   '/(protected)/sync': typeof protectedSyncRoute
@@ -93,6 +102,7 @@ export interface FileRouteTypes {
     | '/'
     | '/budgets'
     | '/dashboard'
+    | '/ledgers'
     | '/reports'
     | '/settings'
     | '/sync'
@@ -102,6 +112,7 @@ export interface FileRouteTypes {
     | '/'
     | '/budgets'
     | '/dashboard'
+    | '/ledgers'
     | '/reports'
     | '/settings'
     | '/sync'
@@ -112,6 +123,7 @@ export interface FileRouteTypes {
     | '/(protected)'
     | '/(protected)/budgets'
     | '/(protected)/dashboard'
+    | '/(protected)/ledgers'
     | '/(protected)/reports'
     | '/(protected)/settings'
     | '/(protected)/sync'
@@ -167,6 +179,13 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof protectedReportsRouteImport
       parentRoute: typeof protectedRouteRoute
     }
+    '/(protected)/ledgers': {
+      id: '/(protected)/ledgers'
+      path: '/ledgers'
+      fullPath: '/ledgers'
+      preLoaderRoute: typeof protectedLedgersRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
     '/(protected)/dashboard': {
       id: '/(protected)/dashboard'
       path: '/dashboard'
@@ -187,6 +206,7 @@ declare module '@tanstack/solid-router' {
 interface protectedRouteRouteChildren {
   protectedBudgetsRoute: typeof protectedBudgetsRoute
   protectedDashboardRoute: typeof protectedDashboardRoute
+  protectedLedgersRoute: typeof protectedLedgersRoute
   protectedReportsRoute: typeof protectedReportsRoute
   protectedSettingsRoute: typeof protectedSettingsRoute
   protectedSyncRoute: typeof protectedSyncRoute
@@ -196,6 +216,7 @@ interface protectedRouteRouteChildren {
 const protectedRouteRouteChildren: protectedRouteRouteChildren = {
   protectedBudgetsRoute: protectedBudgetsRoute,
   protectedDashboardRoute: protectedDashboardRoute,
+  protectedLedgersRoute: protectedLedgersRoute,
   protectedReportsRoute: protectedReportsRoute,
   protectedSettingsRoute: protectedSettingsRoute,
   protectedSyncRoute: protectedSyncRoute,

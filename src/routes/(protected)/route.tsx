@@ -14,14 +14,16 @@ import { Drawer } from "~/components/ui/drawer";
 import type { Transaction, Budget } from "~/db/schema";
 import "../root.css";
 import { getUser } from "~/db/queries";
+import { ledgerStore } from "~/stores/ledgerStore";
+import { LedgerSwitcherDrawer } from "~/components/ledger/LedgerSwitcherDrawer";
 
 const navItems = [
-  {
-    to: "/dashboard" as const,
-    label: "Dashboard",
-    icon: "i-lucide-layout-dashboard",
-    iconActive: "i-lucide-layout-dashboard",
-  },
+  // {
+  //   to: "/dashboard" as const,
+  //   label: "Dashboard",
+  //   icon: "i-lucide-layout-dashboard",
+  //   iconActive: "i-lucide-layout-dashboard",
+  // },
   {
     to: "/transactions" as const,
     label: "Transaksi",
@@ -47,10 +49,10 @@ const navItems = [
     iconActive: "i-lucide-settings",
   },
   {
-    to: "/sync" as const,
-    label: "Sinkron",
-    icon: "i-lucide-refresh-cw",
-    iconActive: "i-lucide-refresh-cw",
+    to: "/ledgers" as const,
+    label: "Ledger",
+    icon: "i-lucide-users",
+    iconActive: "i-lucide-users",
   },
 ];
 
@@ -64,6 +66,7 @@ const [isTransactionCreateOpen, setIsTransactionCreateOpen] =
 
 const [editingBudget, setEditingBudget] = createSignal<Budget | null>(null);
 const [isBudgetCreateOpen, setIsBudgetCreateOpen] = createSignal(false);
+const [isSwitcherOpen, setIsSwitcherOpen] = createSignal(false);
 
 export {
   editingTransaction,
@@ -104,6 +107,32 @@ const RootLayout: Component = () => {
 
   return (
     <div class="min-h-screen bg-gray-50 font-sans text-gray-900 pb-18">
+      {/* Top Header */}
+      <header 
+        class="bg-white px-4 py-3 shadow-sm flex items-center justify-between sticky top-0 z-30 cursor-pointer hover:bg-gray-50 transition-colors"
+        onClick={() => setIsSwitcherOpen(true)}
+      >
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold" style={{ "background-color": ledgerStore.activeLedger()?.themeColor || "#3b82f6" }}>
+            {ledgerStore.activeLedger()?.name.charAt(0) || "L"}
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-1">
+              <span class="text-sm font-semibold leading-tight text-slate-800">{ledgerStore.activeLedger()?.name || "Loading..."}</span>
+              <div class="i-lucide-chevron-down text-slate-400 text-xs" />
+            </div>
+            <span class="text-[0.65rem] text-gray-500">Ketuk untuk ubah ledger</span>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-50 border border-slate-200">
+          <div class={`w-2 h-2 rounded-full ${ledgerStore.connectedPeers() > 0 ? "bg-emerald-500 animate-pulse" : "bg-slate-300"}`} />
+          <span class="text-[0.7rem] font-medium text-slate-600">
+            {ledgerStore.connectedPeers()} peer{ledgerStore.connectedPeers() !== 1 ? "s" : ""}
+          </span>
+        </div>
+      </header>
+
       {/* Page content */}
       <main class="px-4 pt-4 max-w-lg mx-auto">
         <Outlet />
@@ -219,6 +248,16 @@ const RootLayout: Component = () => {
             onClick: () => setIsBudgetCreateOpen(true),
           },
         ]}
+      />
+
+      {/* Ledger Switcher */}
+      <LedgerSwitcherDrawer
+        isOpen={isSwitcherOpen()}
+        onClose={() => setIsSwitcherOpen(false)}
+        onCreateNewClick={() => {
+          setIsSwitcherOpen(false);
+          navigate({ to: "/ledgers" });
+        }}
       />
     </div>
   );

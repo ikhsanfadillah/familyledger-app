@@ -4,7 +4,7 @@ import {
   Link,
   useMatches,
 } from "@tanstack/solid-router";
-import { type Component, createMemo, createSignal, onMount } from "solid-js";
+import { type Component, Show, createMemo, createSignal, onMount } from "solid-js";
 import { syncService } from "~/services/sync.service";
 import FabMenu, { type FabMenuItem } from "~/components/shared/fab-menu";
 import TransactionModal from "~/components/transaction/TransactionModal";
@@ -13,6 +13,8 @@ import { Drawer } from "~/components/ui/drawer";
 import type { Transaction, Budget } from "~/db/schema";
 import "./root.css";
 import { Card } from "~/components/ui/card";
+import { ledgerStore } from "~/stores/ledgerStore";
+import { PinScreen } from "~/components/PinScreen";
 
 const navItems = [
   {
@@ -55,8 +57,10 @@ const navItems = [
 
 const RootLayout: Component = () => {
   return (
-    <div class="max-w-md mx-auto shadow-lg">
-      <Outlet />
+    <div class="max-w-md mx-auto shadow-lg min-h-screen bg-slate-50">
+      <Show when={ledgerStore.isDbUnlocked()} fallback={<PinScreen />}>
+        <Outlet />
+      </Show>
     </div>
   );
 };

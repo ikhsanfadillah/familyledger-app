@@ -1,16 +1,35 @@
 import { createFileRoute } from "@tanstack/solid-router";
+import { createResource, Show } from "solid-js";
 import ThemeSwitcher from "~/components/shared/theme-switcher";
+import { coreDb, type Ledger, type User } from "~/db/schema";
 
 export const Route = createFileRoute("/(protected)/settings")({
   component: SettingsPage,
 });
 
 function SettingsPage() {
+  const [ledgers] = createResource<Ledger[]>(() => coreDb.ledgers.toArray());
+  const [user, { mutate: mutateUser }] = createResource<User | undefined>(async () => {
+    const users = await coreDb.users.toArray();
+    return users[0];
+  });
+
+  const handleDefaultLedgerChange = async (e: Event) => {
+    const select = e.currentTarget as HTMLSelectElement;
+    const ledgerId = select.value;
+    const currentUser = user();
+    if (currentUser) {
+      await coreDb.users.update(currentUser.id, { defaultLedgerId: ledgerId });
+      mutateUser({ ...currentUser, defaultLedgerId: ledgerId });
+      alert("Ledger utama berhasil diperbarui!");
+    }
+  };
+
   return (
-    <div>
+    <div class="pb-24">
       <div class="flex items-center gap-2 mb-5">
-        <div class="i-lucide-settings text-primary text-xl" />
-        <h1 class="text-xl font-bold" style={{ color: "hsl(var(--foreground))" }}>
+        <div class="i-lucide-settings text-blue-600 text-xl" />
+        <h1 class="text-xl font-bold text-gray-900">
           Pengaturan
         </h1>
       </div>
@@ -18,12 +37,37 @@ function SettingsPage() {
       {/* Theme Section */}
       <section class="mb-6">
         <div class="flex items-center gap-2 mb-3">
-          <div class="i-lucide-palette text-lg" style={{ color: "hsl(var(--primary))" }} />
-          <h2 class="text-sm font-semibold" style={{ color: "hsl(var(--foreground))" }}>
+          <div class="i-lucide-palette text-lg text-blue-600" />
+          <h2 class="text-sm font-semibold text-gray-900">
             Tema Tampilan
           </h2>
         </div>
         <ThemeSwitcher />
+      </section>
+
+      {/* Default Ledger Section */}
+      <section class="mb-6">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="i-lucide-home text-lg text-blue-600" />
+          <h2 class="text-sm font-semibold text-gray-900">
+            Ledger Utama
+          </h2>
+        </div>
+        <div class="p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
+          <p class="text-xs text-gray-500 mb-3">Pilih ledger yang akan dibuka secara otomatis saat aplikasi dijalankan.</p>
+          <Show when={ledgers() && user()}>
+            <select
+              value={user()?.defaultLedgerId || ""}
+              onChange={handleDefaultLedgerChange}
+              class="w-full p-3 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+            >
+              <option value="" disabled>Pilih Ledger Default...</option>
+              {ledgers()?.map((l) => (
+                <option value={l.id}>{l.name}</option>
+              ))}
+            </select>
+          </Show>
+        </div>
       </section>
 
       {/* Placeholder for future settings */}
