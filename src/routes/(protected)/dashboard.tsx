@@ -54,9 +54,7 @@ function RouteComponent() {
         {/* Recent Transactions */}
         <div>
           <div class="flex items-center justify-between mb-3">
-            <span class="text-sm font-semibold text-gray-700">
-              Transaksi Terbaru
-            </span>
+            <span class="text-sm font-semibold text-gray-700">Transaksi Terbaru</span>
             <Link
               to="/transactions"
               class="text-xs font-semibold no-underline flex items-center gap-1 text-primary"

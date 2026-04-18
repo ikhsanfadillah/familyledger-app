@@ -1,10 +1,5 @@
 import { For, createMemo, type Component } from "solid-js";
-import {
-  currentTheme,
-  setTheme,
-  themes,
-  type ThemeDefinition,
-} from "~/stores/theme.store";
+import { currentTheme, setTheme, themes, type ThemeDefinition } from "~/stores/theme.store";
 
 /* ── Individual theme card ───────────────────────────────────────────── */
 
@@ -59,8 +54,7 @@ const ThemeCard: Component<{
               style={{
                 width: "18px",
                 height: "18px",
-                "border-radius":
-                  props.theme.id === "professional" ? "0px" : "4px",
+                "border-radius": props.theme.id === "professional" ? "0px" : "4px",
                 background: props.theme.swatches.primary,
               }}
             />
@@ -86,8 +80,7 @@ const ThemeCard: Component<{
               style={{
                 flex: "1",
                 height: "24px",
-                "border-radius":
-                  props.theme.id === "professional" ? "0px" : "6px",
+                "border-radius": props.theme.id === "professional" ? "0px" : "6px",
                 background: `${props.theme.swatches.primary}18`,
                 border: `1px solid ${props.theme.swatches.primary}30`,
               }}
@@ -96,8 +89,7 @@ const ThemeCard: Component<{
               style={{
                 flex: "1",
                 height: "24px",
-                "border-radius":
-                  props.theme.id === "professional" ? "0px" : "6px",
+                "border-radius": props.theme.id === "professional" ? "0px" : "6px",
                 background: props.theme.swatches.secondary,
               }}
             />
@@ -109,8 +101,7 @@ const ThemeCard: Component<{
               style={{
                 height: "16px",
                 width: "48px",
-                "border-radius":
-                  props.theme.id === "professional" ? "0px" : "4px",
+                "border-radius": props.theme.id === "professional" ? "0px" : "4px",
                 background: props.theme.swatches.primary,
               }}
             />
@@ -118,8 +109,7 @@ const ThemeCard: Component<{
               style={{
                 height: "16px",
                 width: "28px",
-                "border-radius":
-                  props.theme.id === "professional" ? "0px" : "4px",
+                "border-radius": props.theme.id === "professional" ? "0px" : "4px",
                 background: props.theme.swatches.accent,
               }}
             />

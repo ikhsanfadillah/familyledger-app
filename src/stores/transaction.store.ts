@@ -1,5 +1,5 @@
-import { createSignal, createResource, onCleanup } from 'solid-js'
-import { liveQuery } from 'dexie'
+import { createResource, onCleanup } from "solid-js";
+import { liveQuery } from "dexie";
 import {
   getTransactions,
   addTransaction,
@@ -8,14 +8,14 @@ import {
   getRecentTransactions,
   getMonthlyTotals,
   getDailySpending,
+  addTransfer,
   type TransactionInput,
+  type TransferInput,
   getCategoryMap,
   getCategories,
-  type MonthlyTotals,
-  type DailySpending,
-} from '~/db/queries'
-import type { Transaction } from '~/db/schema'
-import { getMonthRange, getLastNDays } from '~/utils/date'
+} from "~/db/queries";
+import type { Transaction } from "~/db/schema";
+import { getMonthRange, getLastNDays } from "~/utils/date";
 
 // ── Live Query Helper ──────────────────────────────────────────────────
 // Bridges Dexie liveQuery (Observable) to Solid signal.
@@ -36,46 +36,46 @@ function fromLiveQuery<T>(querier: () => T | Promise<T>) {
 // ── Transactions store ──────────────────────────────────────────────────
 
 export function useTransactions() {
-  return fromLiveQuery(() => getTransactions())
+  return fromLiveQuery(() => getTransactions());
 }
 
-export function useCategories(type?: 'income' | 'expense' | 'both') {
-  return fromLiveQuery(() => getCategories(type))
+export function useCategories(type?: "income" | "expense" | "both") {
+  return fromLiveQuery(() => getCategories(type));
 }
 
 export function useCategoryMap() {
-  return fromLiveQuery(() => getCategoryMap())
+  return fromLiveQuery(() => getCategoryMap());
 }
 
 // ── Recent transactions (for dashboard) ─────────────────────────────────
 
 export function useRecentTransactions(limit = 5) {
-  return fromLiveQuery(() => getRecentTransactions(limit))
+  return fromLiveQuery(() => getRecentTransactions(limit));
 }
 
 // ── Monthly totals (for dashboard) ──────────────────────────────────────
 
 export function useCurrentMonthTotals() {
-  const now = new Date()
-  const year = now.getFullYear()
-  const month = now.getMonth() + 1
-  const range = getMonthRange(year, month)
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const range = getMonthRange(year, month);
 
-  return fromLiveQuery(() => getMonthlyTotals(range.start, range.end))
+  return fromLiveQuery(() => getMonthlyTotals(range.start, range.end));
 }
 
 // ── Daily spending (for 7-day chart) ────────────────────────────────────
 
 export function useDailySpending(days = 7) {
-  const dayList = getLastNDays(days)
-  const startDate = dayList[0]!
-  const endDate = dayList[dayList.length - 1]!
+  const dayList = getLastNDays(days);
+  const startDate = dayList[0]!;
+  const endDate = dayList[dayList.length - 1]!;
 
-  return fromLiveQuery(() => getDailySpending(startDate, endDate))
+  return fromLiveQuery(() => getDailySpending(startDate, endDate));
 }
 
 export async function createTransaction(input: TransactionInput) {
-  await addTransaction(input)
+  await addTransaction(input);
 }
 
 export async function editTransaction(id: string, input: TransactionInput) {
@@ -85,45 +85,50 @@ export async function editTransaction(id: string, input: TransactionInput) {
     categoryId: input.categoryId,
     note: input.note,
     date: input.date,
-  })
+    accountId: input.accountId,
+  });
 }
 
 export async function removeTransaction(id: string) {
-  await deleteTransaction(id)
+  await deleteTransaction(id);
+}
+
+export async function createTransfer(input: TransferInput) {
+  await addTransfer(input);
 }
 
 // ── Group by date helper ────────────────────────────────────────────────
 
 export interface TransactionGroup {
-  date: string
-  transactions: Transaction[]
-  total: number // net: income - expense
+  date: string;
+  transactions: Transaction[];
+  total: number; // net: income - expense
 }
 
 export function groupByDate(transactions: Transaction[]): TransactionGroup[] {
-  const map = new Map<string, Transaction[]>()
+  const map = new Map<string, Transaction[]>();
 
   for (const tx of transactions) {
-    const existing = map.get(tx.date)
+    const existing = map.get(tx.date);
     if (existing) {
-      existing.push(tx)
+      existing.push(tx);
     } else {
-      map.set(tx.date, [tx])
+      map.set(tx.date, [tx]);
     }
   }
 
   // Sort groups by date descending
-  const groups: TransactionGroup[] = []
-  const sortedDates = [...map.keys()].sort((a, b) => b.localeCompare(a))
+  const groups: TransactionGroup[] = [];
+  const sortedDates = [...map.keys()].sort((a, b) => b.localeCompare(a));
 
   for (const date of sortedDates) {
-    const txs = map.get(date)!
-    let total = 0
+    const txs = map.get(date)!;
+    let total = 0;
     for (const tx of txs) {
-      total += tx.type === 'income' ? tx.amount : -tx.amount
+      total += tx.type === "income" ? tx.amount : -tx.amount;
     }
-    groups.push({ date, transactions: txs, total })
+    groups.push({ date, transactions: txs, total });
   }
 
-  return groups
+  return groups;
 }

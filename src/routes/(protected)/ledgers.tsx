@@ -1,10 +1,5 @@
 import { createFileRoute } from "@tanstack/solid-router";
-import {
-  createSignal,
-  createEffect,
-  Show,
-  onCleanup,
-} from "solid-js";
+import { createSignal, createEffect, Show, onCleanup } from "solid-js";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import QRCode from "qrcode";
 import { ledgerStore } from "~/stores/ledgerStore";
@@ -26,10 +21,10 @@ function LedgersPage() {
     const ledger = ledgerStore.activeLedger();
     if (ledger) {
       const payload = JSON.stringify({
-        type: 'LEDGER_INVITE',
+        type: "LEDGER_INVITE",
         ledgerId: ledger.id,
         ledgerKey: ledger.key,
-        name: ledger.name
+        name: ledger.name,
       });
       const url = await QRCode.toDataURL(payload);
       setQrDataUrl(url);
@@ -53,16 +48,16 @@ function LedgersPage() {
       async (decodedText) => {
         try {
           const payload = JSON.parse(decodedText);
-          if (payload.type === 'LEDGER_INVITE') {
+          if (payload.type === "LEDGER_INVITE") {
             const existing = await coreDb.ledgers.get(payload.ledgerId);
             if (!existing) {
               await coreDb.ledgers.add({
                 id: payload.ledgerId,
                 name: payload.name,
                 key: payload.ledgerKey,
-                themeColor: '#10B981',
+                themeColor: "#10B981",
                 createdAt: Date.now(),
-                updatedAt: Date.now()
+                updatedAt: Date.now(),
               });
               await ledgerStore.switchLedger(payload.ledgerId);
               alert(`Berhasil bergabung ke ledger ${payload.name}!`);
@@ -76,7 +71,7 @@ function LedgersPage() {
         }
         stopScanner();
       },
-      (error) => {
+      () => {
         // console.warn(error)
       },
     );
@@ -99,10 +94,10 @@ function LedgersPage() {
     const ledger = ledgerStore.activeLedger();
     if (ledger) {
       const payload = JSON.stringify({
-        type: 'LEDGER_INVITE',
+        type: "LEDGER_INVITE",
         ledgerId: ledger.id,
         ledgerKey: ledger.key,
-        name: ledger.name
+        name: ledger.name,
       });
       // Convert to base64 so it can be pasted easily
       const encoded = btoa(payload);
@@ -118,16 +113,16 @@ function LedgersPage() {
     try {
       const decoded = atob(text);
       const payload = JSON.parse(decoded);
-      if (payload.type === 'LEDGER_INVITE') {
+      if (payload.type === "LEDGER_INVITE") {
         const existing = await coreDb.ledgers.get(payload.ledgerId);
         if (!existing) {
           await coreDb.ledgers.add({
             id: payload.ledgerId,
             name: payload.name,
             key: payload.ledgerKey,
-            themeColor: '#10B981',
+            themeColor: "#10B981",
             createdAt: Date.now(),
-            updatedAt: Date.now()
+            updatedAt: Date.now(),
           });
           await ledgerStore.switchLedger(payload.ledgerId);
           alert(`Berhasil bergabung ke ledger ${payload.name}!`);
@@ -135,7 +130,7 @@ function LedgersPage() {
           alert(`Anda sudah memiliki akses ke ledger ${payload.name}`);
         }
       }
-    } catch (err) {
+    } catch {
       alert("Kode undangan tidak valid.");
     }
   };
@@ -145,9 +140,7 @@ function LedgersPage() {
       <header class="flex items-center justify-between">
         <div>
           <h1 class="text-2xl font-bold text-gray-900">Manajemen Ledger</h1>
-          <p class="text-sm text-gray-500">
-            Kelola ruang kerja keuangan Anda.
-          </p>
+          <p class="text-sm text-gray-500">Kelola ruang kerja keuangan Anda.</p>
         </div>
         <button
           onClick={() => setIsCreateModalOpen(true)}
@@ -166,7 +159,8 @@ function LedgersPage() {
           <div>
             <h2 class="font-semibold text-gray-900">Status Sinkronisasi</h2>
             <p class="text-xs text-gray-500">
-              {ledgerStore.connectedPeers()} perangkat saat ini terhubung ke ledger <b>{ledgerStore.activeLedger()?.name}</b>.
+              {ledgerStore.connectedPeers()} perangkat saat ini terhubung ke ledger{" "}
+              <b>{ledgerStore.activeLedger()?.name}</b>.
             </p>
           </div>
         </div>
@@ -174,7 +168,9 @@ function LedgersPage() {
 
       {/* Invite QR */}
       <section class="flex flex-col gap-4 mt-2">
-        <h2 class="text-lg font-bold text-gray-900 px-1">Undang ke {ledgerStore.activeLedger()?.name}</h2>
+        <h2 class="text-lg font-bold text-gray-900 px-1">
+          Undang ke {ledgerStore.activeLedger()?.name}
+        </h2>
 
         <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm flex flex-col gap-6">
           <div class="flex flex-col items-center gap-4">
@@ -185,9 +181,7 @@ function LedgersPage() {
 
             <Show
               when={qrDataUrl()}
-              fallback={
-                <div class="w-48 h-48 bg-gray-50 rounded-xl animate-pulse" />
-              }
+              fallback={<div class="w-48 h-48 bg-gray-50 rounded-xl animate-pulse" />}
             >
               <img
                 src={qrDataUrl()}
@@ -227,10 +221,7 @@ function LedgersPage() {
           </Show>
 
           <Show when={isScanning()}>
-            <div
-              id="reader"
-              class="w-full overflow-hidden rounded-xl border border-gray-200"
-            />
+            <div id="reader" class="w-full overflow-hidden rounded-xl border border-gray-200" />
             <button
               onClick={stopScanner}
               class="w-full py-3 bg-red-50 text-red-600 rounded-xl font-semibold active:scale-98 transition-transform"
@@ -241,9 +232,7 @@ function LedgersPage() {
 
           <div class="flex items-center gap-3 py-2">
             <div class="flex-1 h-px bg-gray-100" />
-            <span class="text-[10px] font-bold text-gray-300 uppercase tracking-widest">
-              Atau
-            </span>
+            <span class="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Atau</span>
             <div class="flex-1 h-px bg-gray-100" />
           </div>
 
@@ -257,10 +246,7 @@ function LedgersPage() {
         </div>
       </section>
 
-      <CreateLedgerModal 
-        isOpen={isCreateModalOpen()} 
-        onClose={() => setIsCreateModalOpen(false)} 
-      />
+      <CreateLedgerModal isOpen={isCreateModalOpen()} onClose={() => setIsCreateModalOpen(false)} />
     </div>
   );
 }

@@ -44,7 +44,7 @@ export const CreateLedgerModal: Component<Props> = (props) => {
       });
 
       await ledgerStore.switchLedger(newLedgerId);
-      
+
       // Reset & Close
       setName("");
       setThemeColor(THEME_COLORS[0]);
@@ -66,7 +66,7 @@ export const CreateLedgerModal: Component<Props> = (props) => {
     >
       <div class="p-6">
         <h2 class="text-xl font-bold text-gray-900 mb-6">Buat Ledger Baru</h2>
-        
+
         <form onSubmit={handleSubmit} class="space-y-6">
           <div class="space-y-2">
             <label class="text-sm font-semibold text-gray-700">Nama Ledger</label>

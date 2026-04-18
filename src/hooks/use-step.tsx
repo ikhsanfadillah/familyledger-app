@@ -96,9 +96,7 @@ interface StepProviderProps {
 export const StepProvider: ParentComponent<StepProviderProps> = (props) => {
   const step = useStep({ maxStep: props.maxStep });
 
-  return (
-    <StepContext.Provider value={step}>{props.children}</StepContext.Provider>
-  );
+  return <StepContext.Provider value={step}>{props.children}</StepContext.Provider>;
 };
 
 // ============================================================================

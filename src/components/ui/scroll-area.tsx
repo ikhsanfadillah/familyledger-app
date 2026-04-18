@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  ScrollArea as ArkScrollArea,
-  useScrollAreaContext,
-} from "@ark-ui/solid/scroll-area";
+import { ScrollArea as ArkScrollArea, useScrollAreaContext } from "@ark-ui/solid/scroll-area";
 import { mergeProps, splitProps, type ComponentProps } from "solid-js";
 import { cn, tv, type VariantProps } from "tailwind-variants";
 
@@ -37,14 +34,10 @@ const scrollAreaVariants = tv({
 });
 
 interface ScrollAreaProps
-  extends
-    ComponentProps<typeof ArkScrollArea.Root>,
-    VariantProps<typeof scrollAreaVariants> {}
+  extends ComponentProps<typeof ArkScrollArea.Root>, VariantProps<typeof scrollAreaVariants> {}
 
 export const ScrollArea = (props: ScrollAreaProps) => {
-  const [classProps] = splitProps(mergeProps(props, { scrollFade: false }), [
-    "class",
-  ]);
+  const [classProps] = splitProps(mergeProps(props, { scrollFade: false }), ["class"]);
 
   return (
     <ArkScrollArea.Root
@@ -69,9 +62,7 @@ export const ScrollArea = (props: ScrollAreaProps) => {
   );
 };
 
-export const ScrollAreaScrollbar = (
-  props: ComponentProps<typeof ArkScrollArea.Scrollbar>,
-) => {
+export const ScrollAreaScrollbar = (props: ComponentProps<typeof ArkScrollArea.Scrollbar>) => {
   const [classProps] = splitProps(props, ["class"]);
 
   return (

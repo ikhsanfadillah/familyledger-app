@@ -1,23 +1,22 @@
-import type { Component } from 'solid-js'
-import { Show } from 'solid-js'
-import type { MonthlyTotals } from '~/db/queries'
-import { formatCurrency } from '~/utils/currency'
+import type { Component } from "solid-js";
+import { Show } from "solid-js";
+import type { MonthlyTotals } from "~/db/queries";
+import { formatCurrency } from "~/utils/currency";
 
 interface Props {
-  current: MonthlyTotals | undefined
-  previous: MonthlyTotals | undefined
+  current: MonthlyTotals | undefined;
+  previous: MonthlyTotals | undefined;
 }
 
 function percentChange(current: number, previous: number): number {
-  if (previous === 0) return current > 0 ? 100 : 0
-  return Math.round(((current - previous) / previous) * 100)
+  if (previous === 0) return current > 0 ? 100 : 0;
+  return Math.round(((current - previous) / previous) * 100);
 }
 
 const MonthComparison: Component<Props> = (props) => {
-  const incomeChange = () =>
-    percentChange(props.current?.income ?? 0, props.previous?.income ?? 0)
+  const incomeChange = () => percentChange(props.current?.income ?? 0, props.previous?.income ?? 0);
   const expenseChange = () =>
-    percentChange(props.current?.expense ?? 0, props.previous?.expense ?? 0)
+    percentChange(props.current?.expense ?? 0, props.previous?.expense ?? 0);
 
   const maxValue = () => {
     const vals = [
@@ -25,12 +24,12 @@ const MonthComparison: Component<Props> = (props) => {
       props.current?.expense ?? 0,
       props.previous?.income ?? 0,
       props.previous?.expense ?? 0,
-    ]
-    return Math.max(...vals, 1) // avoid 0 division
-  }
+    ];
+    return Math.max(...vals, 1); // avoid 0 division
+  };
 
   function barWidth(value: number): string {
-    return `${Math.max(4, (value / maxValue()) * 100)}%`
+    return `${Math.max(4, (value / maxValue()) * 100)}%`;
   }
 
   return (
@@ -79,16 +78,16 @@ const MonthComparison: Component<Props> = (props) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 // ── Sub-components ────────────────────────────────────────────────────
 
 const BarRow: Component<{
-  label: string
-  value: number
-  width: string
-  color: string
+  label: string;
+  value: number;
+  width: string;
+  color: string;
 }> = (props) => (
   <div class="flex items-center gap-2">
     <span class="text-xs text-gray-400 w-16 flex-shrink-0">{props.label}</span>
@@ -97,7 +96,7 @@ const BarRow: Component<{
         class="h-full rounded-full transition-all"
         style={{
           width: props.width,
-          'background-color': props.color,
+          "background-color": props.color,
         }}
       />
     </div>
@@ -105,33 +104,33 @@ const BarRow: Component<{
       {formatCurrency(props.value)}
     </span>
   </div>
-)
+);
 
 const ChangeIndicator: Component<{
-  value: number
+  value: number;
   /** When true, positive change is bad (expense went up) */
-  inverted: boolean
+  inverted: boolean;
 }> = (props) => {
-  const isPositive = () => props.value > 0
-  const isGood = () => (props.inverted ? !isPositive() : isPositive())
+  const isPositive = () => props.value > 0;
+  const isGood = () => (props.inverted ? !isPositive() : isPositive());
 
   return (
     <Show when={props.value !== 0}>
       <span
         class="text-xs font-bold flex items-center gap-0.5 px-2 py-0.5 rounded-full"
         style={{
-          color: isGood() ? '#10B981' : '#EF4444',
-          'background-color': isGood() ? '#ECFDF5' : '#FEF2F2',
+          color: isGood() ? "#10B981" : "#EF4444",
+          "background-color": isGood() ? "#ECFDF5" : "#FEF2F2",
         }}
       >
         <div
-          class={isPositive() ? 'i-lucide-trending-up' : 'i-lucide-trending-down'}
-          style={{ 'font-size': '0.7rem' }}
+          class={isPositive() ? "i-lucide-trending-up" : "i-lucide-trending-down"}
+          style={{ "font-size": "0.7rem" }}
         />
         {Math.abs(props.value)}%
       </span>
     </Show>
-  )
-}
+  );
+};
 
-export default MonthComparison
+export default MonthComparison;

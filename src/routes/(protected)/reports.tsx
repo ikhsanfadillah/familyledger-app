@@ -1,5 +1,5 @@
-import { createFileRoute } from '@tanstack/solid-router'
-import { Show, Suspense } from 'solid-js'
+import { createFileRoute } from "@tanstack/solid-router";
+import { Show, Suspense } from "solid-js";
 import {
   selectedYear,
   selectedMonth,
@@ -8,17 +8,17 @@ import {
   useReportTotals,
   usePreviousMonthTotals,
   useReportCategoryTotals,
-} from '~/stores/reports.store'
-import { formatMonthYear } from '~/utils/date'
-import { formatCurrency } from '~/utils/currency'
-import DonutChart from '~/components/reports/DonutChart'
-import CategoryBreakdown from '~/components/reports/CategoryBreakdown'
-import MonthComparison from '~/components/reports/MonthComparison'
+} from "~/stores/reports.store";
+import { formatMonthYear } from "~/utils/date";
+import { formatCurrency } from "~/utils/currency";
+import DonutChart from "~/components/reports/DonutChart";
+import CategoryBreakdown from "~/components/reports/CategoryBreakdown";
+import MonthComparison from "~/components/reports/MonthComparison";
 
 function ReportsPage() {
-  const totals = useReportTotals()
-  const prevTotals = usePreviousMonthTotals()
-  const categoryTotals = useReportCategoryTotals()
+  const totals = useReportTotals();
+  const prevTotals = usePreviousMonthTotals();
+  const categoryTotals = useReportCategoryTotals();
 
   return (
     <div class="flex flex-col gap-5">
@@ -29,8 +29,9 @@ function ReportsPage() {
       </div>
 
       {/* Month selector */}
-      <div class="flex items-center justify-between bg-white rounded-2xl px-4 py-3 border border-gray-100"
-        style={{ 'box-shadow': '0 1px 3px rgba(0,0,0,0.04)' }}
+      <div
+        class="flex items-center justify-between bg-white rounded-2xl px-4 py-3 border border-gray-100"
+        style={{ "box-shadow": "0 1px 3px rgba(0,0,0,0.04)" }}
       >
         <button
           type="button"
@@ -64,13 +65,13 @@ function ReportsPage() {
           <div class="grid grid-cols-3 gap-3 text-center">
             <div>
               <p class="text-xs text-gray-400">Pemasukan</p>
-              <p class="text-sm font-bold tabular-nums" style={{ color: '#10B981' }}>
+              <p class="text-sm font-bold tabular-nums" style={{ color: "#10B981" }}>
                 {formatCurrency(totals()?.income ?? 0)}
               </p>
             </div>
             <div>
               <p class="text-xs text-gray-400">Pengeluaran</p>
-              <p class="text-sm font-bold tabular-nums" style={{ color: '#EF4444' }}>
+              <p class="text-sm font-bold tabular-nums" style={{ color: "#EF4444" }}>
                 {formatCurrency(totals()?.expense ?? 0)}
               </p>
             </div>
@@ -79,7 +80,7 @@ function ReportsPage() {
               <p
                 class="text-sm font-bold tabular-nums"
                 style={{
-                  color: (totals()?.balance ?? 0) >= 0 ? '#10B981' : '#EF4444',
+                  color: (totals()?.balance ?? 0) >= 0 ? "#10B981" : "#EF4444",
                 }}
               >
                 {formatCurrency(totals()?.balance ?? 0)}
@@ -99,13 +100,8 @@ function ReportsPage() {
           }
         >
           <div class="card p-5">
-            <h2 class="text-sm font-semibold text-gray-700 mb-4">
-              Pengeluaran per Kategori
-            </h2>
-            <DonutChart
-              data={categoryTotals()}
-              totalExpense={totals()?.expense ?? 0}
-            />
+            <h2 class="text-sm font-semibold text-gray-700 mb-4">Pengeluaran per Kategori</h2>
+            <DonutChart data={categoryTotals()} totalExpense={totals()?.expense ?? 0} />
             <div class="mt-5">
               <CategoryBreakdown data={categoryTotals()} />
             </div>
@@ -114,19 +110,14 @@ function ReportsPage() {
 
         {/* Month comparison */}
         <div class="card p-5">
-          <h2 class="text-sm font-semibold text-gray-700 mb-4">
-            Perbandingan Bulan
-          </h2>
-          <MonthComparison
-            current={totals()}
-            previous={prevTotals()}
-          />
+          <h2 class="text-sm font-semibold text-gray-700 mb-4">Perbandingan Bulan</h2>
+          <MonthComparison current={totals()} previous={prevTotals()} />
         </div>
       </Suspense>
     </div>
-  )
+  );
 }
 
-export const Route = createFileRoute('/(protected)/reports')({
+export const Route = createFileRoute("/(protected)/reports")({
   component: ReportsPage,
-})
+});

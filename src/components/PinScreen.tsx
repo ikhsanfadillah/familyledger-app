@@ -1,6 +1,7 @@
 import { createSignal, Show, type Component } from "solid-js";
 import { initDb } from "~/db/schema";
 import { ledgerStore } from "~/stores/ledgerStore";
+import { Button } from "./ui/button";
 
 export const PinScreen: Component = () => {
   const [pin, setPin] = createSignal("");
@@ -13,10 +14,10 @@ export const PinScreen: Component = () => {
       setError("PIN must be 6 digits");
       return;
     }
-    
+
     setIsSubmitting(true);
     setError("");
-    
+
     try {
       await initDb(pin());
       await ledgerStore.unlockDb();
@@ -33,7 +34,7 @@ export const PinScreen: Component = () => {
       try {
         const dbs = await indexedDB.databases();
         for (const db of dbs) {
-          if (db.name?.startsWith('FamilyLedger') || db.name?.startsWith('yjs-ledger')) {
+          if (db.name?.startsWith("FamilyLedger") || db.name?.startsWith("yjs-ledger")) {
             indexedDB.deleteDatabase(db.name);
           }
         }
@@ -48,13 +49,15 @@ export const PinScreen: Component = () => {
 
   return (
     <div class="flex flex-col items-center justify-center min-h-screen bg-slate-50 p-4">
-      <div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm">
+      <div class="bg-white p-8 rounded-card shadow-xl w-full max-w-sm">
         <div class="text-center mb-8">
           <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
             <div class="i-lucide-lock" />
           </div>
           <h1 class="text-2xl font-bold text-slate-800">Unlock Ledger</h1>
-          <p class="text-sm text-slate-500 mt-2">Enter your 6-digit PIN to decrypt your secure local database.</p>
+          <p class="text-sm text-slate-500 mt-2">
+            Enter your 6-digit PIN to decrypt your secure local database.
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} class="space-y-6">
@@ -71,22 +74,25 @@ export const PinScreen: Component = () => {
               disabled={isSubmitting()}
             />
           </div>
-          
+
           <Show when={error()}>
-            <p class="text-red-500 text-sm text-center font-medium bg-red-50 p-2 rounded-lg">{error()}</p>
+            <p class="text-red-500 text-sm text-center font-medium bg-red-50 p-2 rounded-lg">
+              {error()}
+            </p>
           </Show>
 
-          <button
+          <Button
             type="submit"
             disabled={pin().length !== 6 || isSubmitting()}
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            size="xl"
+            class="w-full h-13"
           >
             {isSubmitting() ? (
               <div class="i-lucide-loader-2 animate-spin text-xl" />
             ) : (
               "Unlock Database"
             )}
-          </button>
+          </Button>
         </form>
 
         <div class="mt-8 border-t border-red-100 pt-6">

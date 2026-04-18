@@ -1,8 +1,5 @@
 import { ark } from "@ark-ui/solid/factory";
-import {
-  Field as ArkField,
-  useFieldContext as useArkFieldContext,
-} from "@ark-ui/solid/field";
+import { Field as ArkField, useFieldContext as useArkFieldContext } from "@ark-ui/solid/field";
 import { Fieldset as ArkFieldset } from "@ark-ui/solid/fieldset";
 import { cn, tv, type VariantProps } from "tailwind-variants";
 import { Separator } from "./separator";
@@ -40,9 +37,7 @@ const fieldVariants = tv({
 });
 
 interface FieldProps
-  extends
-    ComponentProps<typeof ArkField.Root>,
-    VariantProps<typeof fieldVariants> {}
+  extends ComponentProps<typeof ArkField.Root>, VariantProps<typeof fieldVariants> {}
 
 export const Field = (props: FieldProps) => {
   const [local, rest] = splitProps(
@@ -90,10 +85,10 @@ interface FieldLegendProps extends ComponentProps<typeof ArkFieldset.Legend> {
 }
 
 export const FieldLegend = (props: FieldLegendProps) => {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "legend" as const }, props),
-    ["variant", "class"],
-  );
+  const [local, rest] = splitProps(mergeProps({ variant: "legend" as const }, props), [
+    "variant",
+    "class",
+  ]);
 
   return (
     <ArkFieldset.Legend
@@ -133,12 +128,7 @@ export const FieldContent = (props: ComponentProps<typeof ark.div>) => {
 
   return (
     <ark.div
-      class={cn(
-        "group/field-content",
-        "flex flex-1 flex-col gap-1.5",
-        "leading-snug",
-        local.class,
-      )}
+      class={cn("group/field-content", "flex flex-1 flex-col gap-1.5", "leading-snug", local.class)}
       data-slot="field-content"
       {...rest}
     />
@@ -166,9 +156,7 @@ export const FieldLabel = (props: ComponentProps<typeof ArkField.Label>) => {
   );
 };
 
-export const FieldRequiredIndicator = (
-  props: ComponentProps<typeof ark.span>,
-) => {
+export const FieldRequiredIndicator = (props: ComponentProps<typeof ark.span>) => {
   const [local, rest] = splitProps(props, ["class", "children"]);
 
   return (
@@ -259,9 +247,7 @@ export const FieldSeparator = (props: ComponentProps<typeof ark.div>) => {
   );
 };
 
-export const FieldHelper = (
-  props: ComponentProps<typeof ArkField.HelperText>,
-) => {
+export const FieldHelper = (props: ComponentProps<typeof ArkField.HelperText>) => {
   const [local, rest] = splitProps(props, ["class"]);
 
   return (
@@ -273,9 +259,7 @@ export const FieldHelper = (
   );
 };
 
-export const FieldError = (
-  props: ComponentProps<typeof ArkField.ErrorText>,
-) => {
+export const FieldError = (props: ComponentProps<typeof ArkField.ErrorText>) => {
   const [local, rest] = splitProps(props, ["class"]);
 
   return (

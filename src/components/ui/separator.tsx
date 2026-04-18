@@ -15,10 +15,7 @@ interface SeparatorProps extends ComponentProps<typeof ark.div> {
 
 export const Separator = (props: SeparatorProps) => {
   // const { orientation = "horizontal", className, ...rest } = props;
-  const [classProps] = splitProps(
-    mergeProps(props, { orientation: "horizontal" }),
-    ["class"],
-  );
+  const [classProps] = splitProps(mergeProps(props, { orientation: "horizontal" }), ["class"]);
 
   return (
     <ark.div

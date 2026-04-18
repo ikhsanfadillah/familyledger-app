@@ -1,61 +1,20 @@
-import {
-  createRootRoute,
-  Outlet,
-  Link,
-  useMatches,
-} from "@tanstack/solid-router";
-import { type Component, Show, createMemo, createSignal, onMount } from "solid-js";
-import { syncService } from "~/services/sync.service";
-import FabMenu, { type FabMenuItem } from "~/components/shared/fab-menu";
-import TransactionModal from "~/components/transaction/TransactionModal";
-import BudgetModal from "~/components/budget/BudgetModal";
-import { Drawer } from "~/components/ui/drawer";
-import type { Transaction, Budget } from "~/db/schema";
+import { createRootRoute, Outlet, useNavigate } from "@tanstack/solid-router";
+import { type Component, Show, createEffect } from "solid-js";
 import "./root.css";
-import { Card } from "~/components/ui/card";
 import { ledgerStore } from "~/stores/ledgerStore";
 import { PinScreen } from "~/components/PinScreen";
 
-const navItems = [
-  {
-    to: "/" as const,
-    label: "Dashboard",
-    icon: "i-lucide-layout-dashboard",
-    iconActive: "i-lucide-layout-dashboard",
-  },
-  {
-    to: "/transactions" as const,
-    label: "Transaksi",
-    icon: "i-lucide-receipt-text",
-    iconActive: "i-lucide-receipt-text",
-  },
-  {
-    to: "/budgets" as const,
-    label: "Anggaran",
-    icon: "i-lucide-wallet",
-    iconActive: "i-lucide-wallet",
-  },
-  {
-    to: "/reports" as const,
-    label: "Laporan",
-    icon: "i-lucide-bar-chart-3",
-    iconActive: "i-lucide-bar-chart-3",
-  },
-  {
-    to: "/settings" as const,
-    label: "Pengaturan",
-    icon: "i-lucide-settings",
-    iconActive: "i-lucide-settings",
-  },
-  {
-    to: "/sync" as const,
-    label: "Sinkron",
-    icon: "i-lucide-refresh-cw",
-    iconActive: "i-lucide-refresh-cw",
-  },
-];
-
 const RootLayout: Component = () => {
+  const navigate = useNavigate();
+
+  // After DB is unlocked, redirect based on whether user exists
+  createEffect(() => {
+    if (!ledgerStore.isDbUnlocked()) return;
+    if (!ledgerStore.hasUser()) {
+      navigate({ to: "/onboarding" });
+    }
+  });
+
   return (
     <div class="max-w-md mx-auto shadow-lg min-h-screen bg-slate-50">
       <Show when={ledgerStore.isDbUnlocked()} fallback={<PinScreen />}>

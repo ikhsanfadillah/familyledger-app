@@ -1,5 +1,5 @@
-import { createResource, onCleanup } from 'solid-js'
-import { liveQuery } from 'dexie'
+import { createResource, onCleanup } from "solid-js";
+import { liveQuery } from "dexie";
 import {
   getBudgets,
   addBudget,
@@ -7,7 +7,7 @@ import {
   deleteBudget,
   type BudgetInput,
   getCategorySpendAmount,
-} from '~/db/queries'
+} from "~/db/queries";
 
 // ── Live Query Helper ──────────────────────────────────────────────────
 // Bridges Dexie liveQuery (Observable) to Solid signal.
@@ -27,11 +27,11 @@ function fromLiveQuery<T>(querier: () => T | Promise<T>) {
 // ── Budget store ────────────────────────────────────────────────────────
 
 export function useBudgets() {
-  return fromLiveQuery(() => getBudgets())
+  return fromLiveQuery(() => getBudgets());
 }
 
 export async function createBudget(input: BudgetInput) {
-  await addBudget(input)
+  await addBudget(input);
 }
 
 export async function editBudget(id: string, input: BudgetInput) {
@@ -40,16 +40,20 @@ export async function editBudget(id: string, input: BudgetInput) {
     categoryId: input.categoryId,
     period: input.period,
     startDate: input.startDate,
-  })
+  });
 }
 
 export async function removeBudget(id: string) {
-  await deleteBudget(id)
+  await deleteBudget(id);
 }
 
 /**
  * Hook to get real-time spending tracking for a single category over a period.
  */
-export function useCategorySpend(categoryId: () => string, startDate: () => string, endDate: () => string) {
-  return fromLiveQuery(() => getCategorySpendAmount(categoryId(), startDate(), endDate()))
+export function useCategorySpend(
+  categoryId: () => string,
+  startDate: () => string,
+  endDate: () => string,
+) {
+  return fromLiveQuery(() => getCategorySpendAmount(categoryId(), startDate(), endDate()));
 }

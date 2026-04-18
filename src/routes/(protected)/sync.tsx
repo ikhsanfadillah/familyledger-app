@@ -1,10 +1,5 @@
 import { createFileRoute } from "@tanstack/solid-router";
-import {
-  createSignal,
-  createEffect,
-  Show,
-  onCleanup,
-} from "solid-js";
+import { createSignal, createEffect, Show, onCleanup } from "solid-js";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import QRCode from "qrcode";
 import { ledgerStore } from "~/stores/ledgerStore";
@@ -24,10 +19,10 @@ function SyncPage() {
     const ledger = ledgerStore.activeLedger();
     if (ledger) {
       const payload = JSON.stringify({
-        type: 'LEDGER_INVITE',
+        type: "LEDGER_INVITE",
         ledgerId: ledger.id,
         ledgerKey: ledger.key,
-        name: ledger.name
+        name: ledger.name,
       });
       const url = await QRCode.toDataURL(payload);
       setQrDataUrl(url);
@@ -51,16 +46,16 @@ function SyncPage() {
       async (decodedText) => {
         try {
           const payload = JSON.parse(decodedText);
-          if (payload.type === 'LEDGER_INVITE') {
+          if (payload.type === "LEDGER_INVITE") {
             const existing = await coreDb.ledgers.get(payload.ledgerId);
             if (!existing) {
               await coreDb.ledgers.add({
                 id: payload.ledgerId,
                 name: payload.name,
                 key: payload.ledgerKey,
-                themeColor: '#10B981',
+                themeColor: "#10B981",
                 createdAt: Date.now(),
-                updatedAt: Date.now()
+                updatedAt: Date.now(),
               });
               await ledgerStore.switchLedger(payload.ledgerId);
               alert(`Berhasil bergabung ke ledger ${payload.name}!`);
@@ -74,7 +69,7 @@ function SyncPage() {
         }
         stopScanner();
       },
-      (error) => {
+      () => {
         // console.warn(error)
       },
     );
@@ -97,10 +92,10 @@ function SyncPage() {
     const ledger = ledgerStore.activeLedger();
     if (ledger) {
       const payload = JSON.stringify({
-        type: 'LEDGER_INVITE',
+        type: "LEDGER_INVITE",
         ledgerId: ledger.id,
         ledgerKey: ledger.key,
-        name: ledger.name
+        name: ledger.name,
       });
       // Convert to base64 so it can be pasted easily
       const encoded = btoa(payload);
@@ -116,16 +111,16 @@ function SyncPage() {
     try {
       const decoded = atob(text);
       const payload = JSON.parse(decoded);
-      if (payload.type === 'LEDGER_INVITE') {
+      if (payload.type === "LEDGER_INVITE") {
         const existing = await coreDb.ledgers.get(payload.ledgerId);
         if (!existing) {
           await coreDb.ledgers.add({
             id: payload.ledgerId,
             name: payload.name,
             key: payload.ledgerKey,
-            themeColor: '#10B981',
+            themeColor: "#10B981",
             createdAt: Date.now(),
-            updatedAt: Date.now()
+            updatedAt: Date.now(),
           });
           await ledgerStore.switchLedger(payload.ledgerId);
           alert(`Berhasil bergabung ke ledger ${payload.name}!`);
@@ -133,7 +128,7 @@ function SyncPage() {
           alert(`Anda sudah memiliki akses ke ledger ${payload.name}`);
         }
       }
-    } catch (err) {
+    } catch {
       alert("Kode undangan tidak valid.");
     }
   };
@@ -161,7 +156,8 @@ function SyncPage() {
           </div>
         </div>
         <p class="text-xs text-gray-500 bg-gray-50 p-3 rounded-xl border border-gray-100 mt-2">
-          Perangkat akan saling terhubung secara otomatis selama aplikasi terbuka. Tidak perlu memencet tombol sinkron.
+          Perangkat akan saling terhubung secara otomatis selama aplikasi terbuka. Tidak perlu
+          memencet tombol sinkron.
         </p>
       </section>
 
@@ -178,9 +174,7 @@ function SyncPage() {
 
             <Show
               when={qrDataUrl()}
-              fallback={
-                <div class="w-48 h-48 bg-gray-50 rounded-xl animate-pulse" />
-              }
+              fallback={<div class="w-48 h-48 bg-gray-50 rounded-xl animate-pulse" />}
             >
               <img
                 src={qrDataUrl()}
@@ -220,10 +214,7 @@ function SyncPage() {
           </Show>
 
           <Show when={isScanning()}>
-            <div
-              id="reader"
-              class="w-full overflow-hidden rounded-xl border border-gray-200"
-            />
+            <div id="reader" class="w-full overflow-hidden rounded-xl border border-gray-200" />
             <button
               onClick={stopScanner}
               class="w-full py-3 bg-red-50 text-red-600 rounded-xl font-semibold active:scale-98 transition-transform"
@@ -234,9 +225,7 @@ function SyncPage() {
 
           <div class="flex items-center gap-3 py-2">
             <div class="flex-1 h-px bg-gray-100" />
-            <span class="text-[10px] font-bold text-gray-300 uppercase tracking-widest">
-              Atau
-            </span>
+            <span class="text-[10px] font-bold text-gray-300 uppercase tracking-widest">Atau</span>
             <div class="flex-1 h-px bg-gray-100" />
           </div>
 

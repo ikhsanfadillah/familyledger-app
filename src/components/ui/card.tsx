@@ -25,20 +25,12 @@ export const Card = (props: ComponentProps<typeof ark.div>) => {
 };
 
 const cardMediaVariants = tv({
-  base: [
-    "flex shrink-0 items-center gap-2",
-    "[&_svg]:pointer-events-none",
-    "px-(--space)",
-  ],
+  base: ["flex shrink-0 items-center gap-2", "[&_svg]:pointer-events-none", "px-(--space)"],
   variants: {
     variant: {
       default: "bg-transparent",
       icon: "[&_svg:not([class*='size-'])]:size-4",
-      image: [
-        "overflow-hidden rounded-t-sm",
-        "px-0",
-        "[&_img]:size-full [&_img]:object-cover",
-      ],
+      image: ["overflow-hidden rounded-t-sm", "px-0", "[&_img]:size-full [&_img]:object-cover"],
     },
   },
   defaultVariants: {
@@ -47,21 +39,16 @@ const cardMediaVariants = tv({
 });
 
 interface CardMediaProps
-  extends
-    ComponentProps<typeof ark.div>,
-    VariantProps<typeof cardMediaVariants> {}
+  extends ComponentProps<typeof ark.div>, VariantProps<typeof cardMediaVariants> { }
 
 export const CardMedia = (props: CardMediaProps) => {
-  const [local, rest] = splitProps(
-    mergeProps({ variant: "default" as const }, props),
-    ["variant", "class"],
-  );
+  const [local, rest] = splitProps(mergeProps({ variant: "default" as const }, props), [
+    "variant",
+    "class",
+  ]);
   return (
     <ark.div
-      class={cn(
-        cardMediaVariants({ variant: local.variant, class: local.class }),
-        local.class,
-      )}
+      class={cn(cardMediaVariants({ variant: local.variant, class: local.class }), local.class)}
       data-slot="card-media"
       data-variant={local.variant}
       {...rest}
@@ -81,7 +68,7 @@ type HeaderProps = ComponentProps<typeof ark.div> & {
 };
 
 export const CardHeader = (props: HeaderProps) => {
-  const [local, rest] = splitProps(props, ["class"]);
+  const [, rest] = splitProps(props, ["class"]);
 
   return (
     <ark.div
@@ -96,9 +83,7 @@ export const CardHeader = (props: HeaderProps) => {
       {...rest}
     >
       {!!rest.title && <CardTitle>{rest.title}</CardTitle>}
-      {!!rest.description && (
-        <CardDescription>{rest.description}</CardDescription>
-      )}
+      {!!rest.description && <CardDescription>{rest.description}</CardDescription>}
       {!rest.title && typeof rest.children === "string" ? (
         <CardTitle>{rest.children}</CardTitle>
       ) : (
@@ -113,10 +98,7 @@ export const CardTitle = (props: ComponentProps<typeof ark.div>) => {
 
   return (
     <ark.div
-      class={cn(
-        "font-semibold text-foreground text-lg/6 sm:text-base/6",
-        local.class,
-      )}
+      class={cn("font-semibold text-foreground text-lg/6 sm:text-base/6", local.class)}
       data-slot="card-title"
       {...rest}
     />
@@ -140,10 +122,7 @@ export const CardAction = (props: ComponentProps<typeof ark.div>) => {
 
   return (
     <ark.div
-      class={cn(
-        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
-        local.class,
-      )}
+      class={cn("col-start-2 row-span-2 row-start-1 self-start justify-self-end", local.class)}
       data-slot="card-action"
       {...rest}
     />
@@ -153,13 +132,7 @@ export const CardAction = (props: ComponentProps<typeof ark.div>) => {
 export const CardContent = (props: ComponentProps<typeof ark.div>) => {
   const [local, rest] = splitProps(props, ["class"]);
 
-  return (
-    <ark.div
-      class={cn("px-(--space)", local.class)}
-      data-slot="card-content"
-      {...rest}
-    />
-  );
+  return <ark.div class={cn("px-(--space)", local.class)} data-slot="card-content" {...rest} />;
 };
 
 export const CardFooter = (props: ComponentProps<typeof ark.div>) => {
