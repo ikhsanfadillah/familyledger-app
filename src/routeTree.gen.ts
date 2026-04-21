@@ -9,15 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as protectedRouteRouteImport } from './routes/(protected)/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as protectedTransactionsRouteImport } from './routes/(protected)/transactions'
 import { Route as protectedSyncRouteImport } from './routes/(protected)/sync'
 import { Route as protectedSettingsRouteImport } from './routes/(protected)/settings'
 import { Route as protectedReportsRouteImport } from './routes/(protected)/reports'
+import { Route as protectedLedgersRouteImport } from './routes/(protected)/ledgers'
 import { Route as protectedDashboardRouteImport } from './routes/(protected)/dashboard'
 import { Route as protectedBudgetsRouteImport } from './routes/(protected)/budgets'
 
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const protectedRouteRoute = protectedRouteRouteImport.update({
   id: '/(protected)',
   getParentRoute: () => rootRouteImport,
@@ -47,6 +54,11 @@ const protectedReportsRoute = protectedReportsRouteImport.update({
   path: '/reports',
   getParentRoute: () => protectedRouteRoute,
 } as any)
+const protectedLedgersRoute = protectedLedgersRouteImport.update({
+  id: '/ledgers',
+  path: '/ledgers',
+  getParentRoute: () => protectedRouteRoute,
+} as any)
 const protectedDashboardRoute = protectedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -60,8 +72,10 @@ const protectedBudgetsRoute = protectedBudgetsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRoute
   '/budgets': typeof protectedBudgetsRoute
   '/dashboard': typeof protectedDashboardRoute
+  '/ledgers': typeof protectedLedgersRoute
   '/reports': typeof protectedReportsRoute
   '/settings': typeof protectedSettingsRoute
   '/sync': typeof protectedSyncRoute
@@ -69,8 +83,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/onboarding': typeof OnboardingRoute
   '/budgets': typeof protectedBudgetsRoute
   '/dashboard': typeof protectedDashboardRoute
+  '/ledgers': typeof protectedLedgersRoute
   '/reports': typeof protectedReportsRoute
   '/settings': typeof protectedSettingsRoute
   '/sync': typeof protectedSyncRoute
@@ -80,8 +96,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/(protected)': typeof protectedRouteRouteWithChildren
+  '/onboarding': typeof OnboardingRoute
   '/(protected)/budgets': typeof protectedBudgetsRoute
   '/(protected)/dashboard': typeof protectedDashboardRoute
+  '/(protected)/ledgers': typeof protectedLedgersRoute
   '/(protected)/reports': typeof protectedReportsRoute
   '/(protected)/settings': typeof protectedSettingsRoute
   '/(protected)/sync': typeof protectedSyncRoute
@@ -91,8 +109,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/onboarding'
     | '/budgets'
     | '/dashboard'
+    | '/ledgers'
     | '/reports'
     | '/settings'
     | '/sync'
@@ -100,8 +120,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/onboarding'
     | '/budgets'
     | '/dashboard'
+    | '/ledgers'
     | '/reports'
     | '/settings'
     | '/sync'
@@ -110,8 +132,10 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/(protected)'
+    | '/onboarding'
     | '/(protected)/budgets'
     | '/(protected)/dashboard'
+    | '/(protected)/ledgers'
     | '/(protected)/reports'
     | '/(protected)/settings'
     | '/(protected)/sync'
@@ -121,10 +145,18 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   protectedRouteRoute: typeof protectedRouteRouteWithChildren
+  OnboardingRoute: typeof OnboardingRoute
 }
 
 declare module '@tanstack/solid-router' {
   interface FileRoutesByPath {
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(protected)': {
       id: '/(protected)'
       path: ''
@@ -167,6 +199,13 @@ declare module '@tanstack/solid-router' {
       preLoaderRoute: typeof protectedReportsRouteImport
       parentRoute: typeof protectedRouteRoute
     }
+    '/(protected)/ledgers': {
+      id: '/(protected)/ledgers'
+      path: '/ledgers'
+      fullPath: '/ledgers'
+      preLoaderRoute: typeof protectedLedgersRouteImport
+      parentRoute: typeof protectedRouteRoute
+    }
     '/(protected)/dashboard': {
       id: '/(protected)/dashboard'
       path: '/dashboard'
@@ -187,6 +226,7 @@ declare module '@tanstack/solid-router' {
 interface protectedRouteRouteChildren {
   protectedBudgetsRoute: typeof protectedBudgetsRoute
   protectedDashboardRoute: typeof protectedDashboardRoute
+  protectedLedgersRoute: typeof protectedLedgersRoute
   protectedReportsRoute: typeof protectedReportsRoute
   protectedSettingsRoute: typeof protectedSettingsRoute
   protectedSyncRoute: typeof protectedSyncRoute
@@ -196,6 +236,7 @@ interface protectedRouteRouteChildren {
 const protectedRouteRouteChildren: protectedRouteRouteChildren = {
   protectedBudgetsRoute: protectedBudgetsRoute,
   protectedDashboardRoute: protectedDashboardRoute,
+  protectedLedgersRoute: protectedLedgersRoute,
   protectedReportsRoute: protectedReportsRoute,
   protectedSettingsRoute: protectedSettingsRoute,
   protectedSyncRoute: protectedSyncRoute,
@@ -209,6 +250,7 @@ const protectedRouteRouteWithChildren = protectedRouteRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   protectedRouteRoute: protectedRouteRouteWithChildren,
+  OnboardingRoute: OnboardingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

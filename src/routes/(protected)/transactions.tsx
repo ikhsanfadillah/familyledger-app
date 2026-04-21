@@ -20,12 +20,8 @@ function TransactionsPage() {
 
   // ── Filters ─────────────────────────────────────────────────────────
   const [searchQuery, setSearchQuery] = createSignal("");
-  const [filterType, setFilterType] = createSignal<
-    "all" | "income" | "expense"
-  >("all");
-  const [filterCategoryId, setFilterCategoryId] = createSignal<string | null>(
-    null,
-  );
+  const [filterType, setFilterType] = createSignal<"all" | "income" | "expense">("all");
+  const [filterCategoryId, setFilterCategoryId] = createSignal<string | null>(null);
   const [showFilters, setShowFilters] = createSignal(false);
   const allCategories = useCategories();
   console.log("allCategories()", allCategories());
@@ -51,10 +47,7 @@ function TransactionsPage() {
   const groups = () => groupByDate(filtered());
 
   const isFiltering = createMemo(
-    () =>
-      searchQuery().trim() !== "" ||
-      filterType() !== "all" ||
-      filterCategoryId() !== null,
+    () => searchQuery().trim() !== "" || filterType() !== "all" || filterCategoryId() !== null,
   );
 
   // ── Actions ─────────────────────────────────────────────────────────
@@ -79,9 +72,7 @@ function TransactionsPage() {
           type="button"
           class={cn(
             "w-8 h-8 rounded-lg flex items-center justify-center transition-colors",
-            showFilters()
-              ? "text-primary bg-gray-100"
-              : "text-muted-foregroun bg-transparent",
+            showFilters() ? "text-primary bg-gray-100" : "text-muted-foregroun bg-transparent",
           )}
           onClick={() => setShowFilters(!showFilters())}
           aria-label="Toggle filter"
@@ -135,9 +126,7 @@ function TransactionsPage() {
               type="button"
               class={cn(
                 "px-3 py-1.5 rounded-full text-xs font-medium transition-all",
-                filterCategoryId() === null
-                  ? "bg-primary text-white"
-                  : "bg-gray-100 text-gray-600",
+                filterCategoryId() === null ? "bg-primary text-white" : "bg-gray-100 text-gray-600",
               )}
               onClick={() => setFilterCategoryId(null)}
             >
@@ -150,21 +139,14 @@ function TransactionsPage() {
                   class="px-3 py-1.5 rounded-full text-xs font-medium transition-all flex items-center gap-1"
                   style={{
                     "background-color":
-                      filterCategoryId() === cat.id
-                        ? cat.color + "20"
-                        : "#F3F4F6",
-                    color:
-                      filterCategoryId() === cat.id ? cat.color : "#6B7280",
+                      filterCategoryId() === cat.id ? cat.color + "20" : "#F3F4F6",
+                    color: filterCategoryId() === cat.id ? cat.color : "#6B7280",
                     border:
                       filterCategoryId() === cat.id
                         ? `1px solid ${cat.color}40`
                         : "1px solid transparent",
                   }}
-                  onClick={() =>
-                    setFilterCategoryId(
-                      filterCategoryId() === cat.id ? null : cat.id,
-                    )
-                  }
+                  onClick={() => setFilterCategoryId(filterCategoryId() === cat.id ? null : cat.id)}
                 >
                   <span>{cat.icon}</span>
                   {cat.name}
@@ -177,9 +159,7 @@ function TransactionsPage() {
 
       {/* Result count when filtering */}
       <Show when={isFiltering()}>
-        <p class="text-xs text-gray-400 mb-3 px-1">
-          {filtered().length} transaksi ditemukan
-        </p>
+        <p class="text-xs text-gray-400 mb-3 px-1">{filtered().length} transaksi ditemukan</p>
       </Show>
 
       <Suspense
@@ -205,8 +185,7 @@ function TransactionsPage() {
               </p>
               <Show when={!isFiltering()}>
                 <p class="text-xs text-gray-300 mt-1">
-                  Tekan tombol <span class="text-primary-400 font-bold">+</span>{" "}
-                  untuk menambah
+                  Tekan tombol <span class="text-primary-400 font-bold">+</span> untuk menambah
                 </p>
               </Show>
             </div>
@@ -227,8 +206,7 @@ function TransactionsPage() {
                         class="text-xs font-bold tabular-nums px-2 py-0.5 rounded-full"
                         style={{
                           color: group.total >= 0 ? "#10B981" : "#EF4444",
-                          "background-color":
-                            group.total >= 0 ? "#ECFDF5" : "#FEF2F2",
+                          "background-color": group.total >= 0 ? "#ECFDF5" : "#FEF2F2",
                         }}
                       >
                         {group.total >= 0 ? "+" : ""}

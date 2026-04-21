@@ -31,9 +31,9 @@ export const buttonVariants = tv({
       ],
       outline: [
         "bg-transparent",
-        "text-foreground",
+        "text-primary",
         "border border-input shadow-sm/5",
-        "hover:bg-accent hover:text-accent-foreground",
+        "hover:bg-primary hover:text-primary-foreground",
         "dark:bg-input/32 dark:hover:bg-input/64",
         "focus-visible:border-primary",
       ],
@@ -65,19 +65,8 @@ export const buttonVariants = tv({
       ],
     },
     size: {
-      xs: [
-        "h-6",
-        "gap-1.5",
-        "px-2",
-        "rounded-sm",
-        "[&_svg:not([class*='size-'])]:size-2.5",
-      ],
-      sm: [
-        "h-7",
-        "px-2.5",
-        "gap-1.5",
-        "[&_svg:not([class*='size-'])]:size-3.5",
-      ],
+      xs: ["h-6", "gap-1.5", "px-2", "rounded-sm", "[&_svg:not([class*='size-'])]:size-2.5"],
+      sm: ["h-7", "px-2.5", "gap-1.5", "[&_svg:not([class*='size-'])]:size-3.5"],
       md: ["h-8", "px-3", "py-2"],
       lg: ["h-9", "px-3.5"],
       xl: ["h-10", "text-base", "px-4"],
@@ -110,9 +99,7 @@ export const buttonVariants = tv({
 });
 
 export interface ButtonProps
-  extends
-    ComponentProps<typeof ark.button>,
-    VariantProps<typeof buttonVariants> {
+  extends ComponentProps<typeof ark.button>, VariantProps<typeof buttonVariants> {
   /**
    * Apply a click effect to the button
    *
@@ -140,15 +127,7 @@ export const Button = (props: ButtonProps) => {
       },
       props,
     ),
-    [
-      "variant",
-      "size",
-      "clickEffect",
-      "pill",
-      "isLoading",
-      "class",
-      "children",
-    ],
+    ["variant", "size", "clickEffect", "pill", "isLoading", "class", "children"],
   );
 
   return (

@@ -2,17 +2,13 @@
  * Format an integer amount as a localized currency string.
  * IDR has no decimal subdivision — amounts are stored as integer rupiah.
  */
-export function formatCurrency(
-  amount: number,
-  currency = 'IDR',
-  locale = 'id-ID',
-): string {
+export function formatCurrency(amount: number, currency = "IDR", locale = "id-ID"): string {
   return new Intl.NumberFormat(locale, {
-    style: 'currency',
+    style: "currency",
     currency,
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(amount)
+  }).format(amount);
 }
 
 /**
@@ -22,9 +18,9 @@ export function formatCurrency(
  */
 export function formatSignedCurrency(
   amount: number,
-  type: 'income' | 'expense',
-  currency = 'IDR',
+  type: "income" | "expense",
+  currency = "IDR",
 ): string {
-  const formatted = formatCurrency(amount, currency)
-  return type === 'income' ? `+${formatted}` : `-${formatted}`
+  const formatted = formatCurrency(amount, currency);
+  return type === "income" ? `+${formatted}` : `-${formatted}`;
 }

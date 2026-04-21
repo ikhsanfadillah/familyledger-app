@@ -10,7 +10,7 @@ export const Spinner = (props: ComponentProps<"i">) => {
       class={cn("i-lucide-loader-2 size-4 animate-spin", local.class)}
       data-slot="spinner"
       role="status"
-      {...props}
+      {...rest}
     />
   );
 };

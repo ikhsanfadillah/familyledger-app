@@ -38,15 +38,10 @@ const inpuGroupVariants = tv({
 });
 
 interface InputGroupProps
-  extends
-    ComponentProps<typeof ark.div>,
-    VariantProps<typeof inpuGroupVariants> {}
+  extends ComponentProps<typeof ark.div>, VariantProps<typeof inpuGroupVariants> {}
 
 export const InputGroup = (props: InputGroupProps) => {
-  const [local, rest] = splitProps(mergeProps({ size: "md" as const }, props), [
-    "size",
-    "class",
-  ]);
+  const [local, rest] = splitProps(mergeProps({ size: "md" as const }, props), ["size", "class"]);
 
   return (
     <ark.div
@@ -77,11 +72,7 @@ const inputGroupAddonVariants = tv({
         "has-[>button]:ms-[-0.45rem]",
         "has-[>kbd]:ms-[-0.35rem]",
       ],
-      "inline-end": [
-        "order-last pe-3",
-        "has-[>button]:me-[-0.45rem]",
-        "has-[>kbd]:me-[-0.35rem]",
-      ],
+      "inline-end": ["order-last pe-3", "has-[>button]:me-[-0.45rem]", "has-[>kbd]:me-[-0.35rem]"],
       "block-start": [
         "order-first w-full justify-start px-3 pt-3",
         "group-has-[>input]/input-group:pt-2.5",
@@ -100,9 +91,7 @@ const inputGroupAddonVariants = tv({
 });
 
 interface InputGroupAddonProps
-  extends
-    ComponentProps<typeof ark.div>,
-    VariantProps<typeof inputGroupAddonVariants> {}
+  extends ComponentProps<typeof ark.div>, VariantProps<typeof inputGroupAddonVariants> {}
 
 export const InputGroupAddon = (props: InputGroupAddonProps) => {
   const [local, rest] = splitProps(mergeProps({ align: "inline-start" as const }, props), [
@@ -140,12 +129,7 @@ const inputGroupButtonVariants = tv({
         "[&_svg:not([class*='size-'])]:size-3.5",
       ],
       sm: ["h-8", "gap-1.5", "px-2.5", "rounded-md", "has-[>svg]:px-2.5"],
-      "icon-xs": [
-        "size-6",
-        "rounded-[calc(var(--radius)-5px)]",
-        "p-0",
-        "has-[>svg]:p-0",
-      ],
+      "icon-xs": ["size-6", "rounded-[calc(var(--radius)-5px)]", "p-0", "has-[>svg]:p-0"],
       "icon-sm": ["size-8", "p-0", "has-[>svg]:p-0"],
     },
   },

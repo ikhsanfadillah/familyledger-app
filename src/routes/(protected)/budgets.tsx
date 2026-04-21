@@ -81,12 +81,9 @@ function BudgetsPage() {
               >
                 <div class="i-lucide-wallet text-3xl text-primary-400" />
               </div>
-              <p class="text-sm font-medium text-gray-500">
-                Belum ada anggaran
-              </p>
+              <p class="text-sm font-medium text-gray-500">Belum ada anggaran</p>
               <p class="text-xs text-gray-300 mt-1">
-                Tekan tombol <span class="text-primary-400 font-bold">+</span>{" "}
-                untuk menambah
+                Tekan tombol <span class="text-primary-400 font-bold">+</span> untuk menambah
               </p>
             </div>
           }

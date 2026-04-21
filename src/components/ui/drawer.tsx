@@ -4,19 +4,12 @@ import { Drawer as ArkDrawer, useDrawerContext } from "@ark-ui/solid/drawer";
 import { ark } from "@ark-ui/solid/factory";
 import { Portal } from "solid-js/web";
 import { cn, tv, type VariantProps } from "tailwind-variants";
-import {
-  mergeProps,
-  splitProps,
-  type ComponentProps,
-  type JSX,
-} from "solid-js";
+import { mergeProps, splitProps, type ComponentProps, type JSX } from "solid-js";
 import { ScrollArea } from "./scroll-area";
 
 export const useDrawer = useDrawerContext;
 
-export const DrawerProvider = (
-  props: ComponentProps<typeof ArkDrawer.Indent>,
-) => {
+export const DrawerProvider = (props: ComponentProps<typeof ArkDrawer.Indent>) => {
   const [classProps] = splitProps(props, ["class"]);
   return (
     <ArkDrawer.Stack>
@@ -49,8 +42,14 @@ export const DrawerProvider = (
   );
 };
 
-export const Drawer = (props: ComponentProps<typeof ArkDrawer.Root>) => {
-  const mergedProps = mergeProps(props, {
+export const Drawer = (
+  props: ComponentProps<
+    typeof ArkDrawer.Root & {
+      swipeDirection?: string;
+    }
+  >,
+) => {
+  const mProps = mergeProps(props, {
     lazyMount: false,
     unmountOnExit: false,
   });
@@ -58,16 +57,15 @@ export const Drawer = (props: ComponentProps<typeof ArkDrawer.Root>) => {
   return (
     <ArkDrawer.Root
       data-slot="drawer"
-      lazyMount={mergedProps.lazyMount}
-      unmountOnExit={mergedProps.unmountOnExit}
-      {...props}
+      swipeDirection={mProps.swipeDirection || "end"}
+      {...mProps}
     />
   );
 };
 
-export const DrawerTrigger = (
-  props: ComponentProps<typeof ArkDrawer.Trigger>,
-) => <ArkDrawer.Trigger data-slot="drawer-trigger" {...props} />;
+export const DrawerTrigger = (props: ComponentProps<typeof ArkDrawer.Trigger>) => (
+  <ArkDrawer.Trigger data-slot="drawer-trigger" {...props} />
+);
 
 const drawerOverlayVariants = tv({
   base: [
@@ -79,15 +77,13 @@ const drawerOverlayVariants = tv({
   ],
 });
 
-export const DrawerOverlay = (
-  props: ComponentProps<typeof ArkDrawer.Backdrop>,
-) => {
-  const [classProps] = splitProps(props, ["class"]);
+export const DrawerOverlay = (props: ComponentProps<typeof ArkDrawer.Backdrop>) => {
+  const [classProps, rest] = splitProps(props, ["class"]);
   return (
     <ArkDrawer.Backdrop
       class={cn(drawerOverlayVariants(), classProps.class)}
       data-slot="drawer-backdrop"
-      {...props}
+      {...rest}
     />
   );
 };
@@ -104,7 +100,7 @@ const drawerPositionerVariants = tv({
   variants: {
     variant: {
       default: "",
-      inset: "sm:p-4",
+      inset: "",
     },
   },
   defaultVariants: {
@@ -118,18 +114,13 @@ interface DrawerPositionerProps
     VariantProps<typeof drawerPositionerVariants> {}
 
 export const DrawerPositioner = (props: DrawerPositionerProps) => {
-  const [classProps] = splitProps(mergeProps(props, { variant: "default" }), [
-    "class",
-  ]);
+  const [classProps, rest] = splitProps(mergeProps(props, { variant: "default" }), ["class"]);
 
   return (
     <ArkDrawer.Positioner
-      class={cn(
-        drawerPositionerVariants({ variant: props.variant }),
-        classProps.class,
-      )}
+      class={cn(drawerPositionerVariants({ variant: rest.variant as any }), classProps.class)}
       data-slot="drawer-positioner"
-      {...props}
+      {...rest}
     />
   );
 };
@@ -140,8 +131,8 @@ const drawerContentVariants = tv({
     "group/drawer",
     "relative",
     "z-[calc(50+var(--layer-index,0))]",
-    "max-h-[calc(80vh+var(--bleed))] w-full",
-    "-mb-(--bleed) pb-[calc(1.5rem+env(safe-area-inset-bottom,0px)+var(--bleed))]",
+    "h-dvh w-full",
+    "-mb-(--bleed) max-sm:pb-[calc(1.5rem+env(safe-area-inset-bottom,0px)+var(--bleed))]",
     "bg-popover",
     "shadow-paper",
     "text-popover-foreground",
@@ -176,19 +167,18 @@ const drawerContentVariants = tv({
         "data-[state=closed]:slide-out-to-right data-[state=closed]:animate-out",
         "max-h-none max-w-md",
         "size-full",
-        "rounded-s-2xl",
       ],
     },
     variant: {
       default: "",
       inset: [
-        "sm:rounded-2xl sm:border max-w-lg",
+        "sm:border max-w-lg",
         "sm:**:data-[slot=drawer-footer]:rounded-b-[calc(var(--radius-2xl)-1px)]",
       ],
     },
   },
   defaultVariants: {
-    placement: "down",
+    placement: "right",
     variant: "default",
   },
 });
@@ -201,14 +191,10 @@ const SWIPE_DIRECTION_TO_PLACEMENT = {
 } as const;
 
 interface DrawerContentProps
-  extends
-    ComponentProps<typeof ArkDrawer.Content>,
-    VariantProps<typeof drawerContentVariants> {}
+  extends ComponentProps<typeof ArkDrawer.Content>, VariantProps<typeof drawerContentVariants> {}
 
 export const DrawerContent = (props: DrawerContentProps) => {
-  const [classProps] = splitProps(mergeProps(props, { variant: "default" }), [
-    "class",
-  ]);
+  const [classProps, rest] = splitProps(mergeProps(props, { variant: "default" }), ["class"]);
 
   return (
     <Portal>
@@ -217,7 +203,6 @@ export const DrawerContent = (props: DrawerContentProps) => {
         {(ctx) => (
           <DrawerPositioner variant={props.variant}>
             <ArkDrawer.Content
-              {...props}
               class={cn(
                 drawerContentVariants({
                   variant: props.variant,
@@ -226,6 +211,7 @@ export const DrawerContent = (props: DrawerContentProps) => {
                 classProps.class,
               )}
               data-slot="drawer-content"
+              {...rest}
             >
               <DrawerGrabber />
 
@@ -239,28 +225,25 @@ export const DrawerContent = (props: DrawerContentProps) => {
 };
 
 export const DrawerContentInner = (props: ComponentProps<typeof ark.div>) => {
-  const [classProps] = splitProps(props, ["class"]);
+  const [classProps, rest] = splitProps(props, ["class"]);
 
   return (
     <ark.div
       class={cn(
         "flex flex-1 flex-col",
-        "mx-auto w-full max-w-sm",
-        "text-center",
+        "mx-auto w-full",
         "transition-opacity duration-300",
         "group-data-[nested=drawer]/drawer:opacity-0 group-data-[nested=drawer]/drawer:data-[state=open]:opacity-100",
         classProps.class,
       )}
       data-slot="drawer-content-inner"
-      {...props}
+      {...rest}
     />
   );
 };
 
-export const DrawerGrabber = (
-  props: ComponentProps<typeof ArkDrawer.Grabber>,
-) => {
-  const [classProps] = splitProps(props, ["class"]);
+export const DrawerGrabber = (props: ComponentProps<typeof ArkDrawer.Grabber>) => {
+  const [classProps, rest] = splitProps(props, ["class"]);
 
   return (
     <ark.div class="p-(--space)">
@@ -275,7 +258,7 @@ export const DrawerGrabber = (
           "group-data-[swipe-direction=down]/drawer:flex",
           classProps.class,
         )}
-        {...props}
+        {...rest}
         data-slot="drawer-grabber"
       >
         <ArkDrawer.GrabberIndicator
@@ -299,23 +282,23 @@ interface DrawerHeaderProps extends ComponentProps<typeof ark.div> {
 }
 
 export const DrawerHeader = (props: DrawerHeaderProps) => {
-  const [classProps] = splitProps(props, ["class"]);
+  const [classProps, rest] = splitProps(props, ["class"]);
 
   return (
     <ark.div
       class={cn(
         "flex flex-col gap-2",
-        "p-(--space) pt-0",
+        "p-(--space) pt-3",
         "in-[[data-slot=drawer-content]:has([data-slot=drawer-body])]:pb-3",
         classProps.class,
       )}
       data-slot="drawer-header"
-      {...props}
+      {...rest}
     >
-      {!!props.title && <DrawerTitle>{props.title}</DrawerTitle>}
+      {!!props.title && <DrawerTitle class="px-4">{props.title}</DrawerTitle>}
 
       {!!props.description && (
-        <DrawerDescription>{props.description}</DrawerDescription>
+        <DrawerDescription class="px-4">{props.description}</DrawerDescription>
       )}
 
       {!props.title && typeof props.children === "string" ? (
@@ -328,25 +311,25 @@ export const DrawerHeader = (props: DrawerHeaderProps) => {
 };
 
 export const DrawerTitle = (props: ComponentProps<typeof ArkDrawer.Title>) => {
-  const [classProps] = splitProps(props, ["class"]);
+  const [classProps, rest] = splitProps(props, ["class"]);
 
   return (
     <ArkDrawer.Title
       class={cn("font-semibold text-lg leading-none", classProps.class)}
-      data-slot="drawer-title"
-      {...props}
+      data-slot="drawer-t itle"
+      {...rest}
     />
   );
 };
 
 export const DrawerDescription = (props: ComponentProps<typeof ark.div>) => {
-  const [classProps] = splitProps(props, ["class"]);
+  const [classProps, rest] = splitProps(props, ["class"]);
 
   return (
     <ark.div
       class={cn("text-muted-foreground text-sm", classProps.class)}
       data-slot="drawer-description"
-      {...props}
+      {...rest}
     />
   );
 };
@@ -361,31 +344,27 @@ interface DrawerBodyProps extends ComponentProps<typeof ark.div> {
 }
 
 export const DrawerBody = (props: DrawerBodyProps) => {
-  const [classProps] = splitProps(mergeProps(props, { scrollFade: false }), [
-    "class",
-  ]);
+  const [classProps, rest] = splitProps(mergeProps(props, { scrollFade: false }), ["class"]);
 
   return (
     <ScrollArea scrollFade={props.scrollFade}>
       <ark.div
         class={cn(
           "flex-1",
-          "p-(--space)",
           "overflow-auto",
-          "in-[[data-slot=drawer-content]:has([data-slot=drawer-header])]:pt-0",
           "in-[[data-slot=drawer-content]:has([data-slot=drawer-footer]:not(.border-t))]:pb-1",
           classProps.class,
         )}
         data-slot="drawer-body"
-        {...props}
+        {...rest}
       />
     </ScrollArea>
   );
 };
 
-export const DrawerClose = (
-  props: ComponentProps<typeof ArkDrawer.CloseTrigger>,
-) => <ArkDrawer.CloseTrigger data-slot="drawer-close" {...props} />;
+export const DrawerClose = (props: ComponentProps<typeof ArkDrawer.CloseTrigger>) => (
+  <ArkDrawer.CloseTrigger data-slot="drawer-close" {...props} />
+);
 
 export const DrawerFooter = (props: ComponentProps<typeof ark.div>) => {
   const [classProps] = splitProps(props, ["class"]);

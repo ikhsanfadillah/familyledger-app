@@ -9,12 +9,7 @@ import { createSignal } from "solid-js";
  * - emerald      : Rich green & gold finance aesthetic
  * - amethyst     : Purple-violet with subtle lilac highlights
  */
-export type ThemeId =
-  | "professional"
-  | "oceanic"
-  | "rosewood"
-  | "emerald"
-  | "amethyst";
+export type ThemeId = "professional" | "oceanic" | "rosewood" | "emerald" | "amethyst";
 
 export interface ThemeDefinition {
   id: ThemeId;

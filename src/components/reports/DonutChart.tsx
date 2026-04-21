@@ -1,52 +1,44 @@
-import { type Component, onMount, onCleanup, createEffect } from 'solid-js'
-import {
-  Chart,
-  DoughnutController,
-  ArcElement,
-  Tooltip,
-  Legend,
-} from 'chart.js'
-import type { CategoryTotal } from '~/db/queries'
-import { formatCurrency } from '~/utils/currency'
+import { type Component, onMount, onCleanup, createEffect } from "solid-js";
+import { Chart, DoughnutController, ArcElement, Tooltip, Legend } from "chart.js";
+import type { CategoryTotal } from "~/db/queries";
+import { formatCurrency } from "~/utils/currency";
 
-Chart.register(DoughnutController, ArcElement, Tooltip, Legend)
+Chart.register(DoughnutController, ArcElement, Tooltip, Legend);
 
 interface Props {
-  data: CategoryTotal[] | undefined
-  totalExpense: number
+  data: CategoryTotal[] | undefined;
+  totalExpense: number;
 }
 
 const DonutChart: Component<Props> = (props) => {
-  let canvasRef: HTMLCanvasElement | undefined
-  let chartInstance: Chart | undefined
+  let canvasRef: HTMLCanvasElement | undefined;
+  let chartInstance: Chart | undefined;
 
   onMount(() => {
-    if (!canvasRef) return
-    createChart()
-  })
+    if (!canvasRef) return;
+    createChart();
+  });
 
   createEffect(() => {
-    const cats = props.data
+    const cats = props.data;
     if (chartInstance && cats) {
-      chartInstance.data.labels = cats.map((c) => `${c.icon} ${c.name}`)
-      chartInstance.data.datasets![0]!.data = cats.map((c) => c.amount)
-      ;(chartInstance.data.datasets![0]!.backgroundColor as string[]) = cats.map(
-        (c) => c.color,
-      )
-      chartInstance.update('none')
+      chartInstance.data.labels = cats.map((c) => `${c.icon} ${c.name}`);
+      chartInstance.data.datasets![0]!.data = cats.map((c) => c.amount);
+      (chartInstance.data.datasets![0]!.backgroundColor as string[]) = cats.map((c) => c.color);
+      chartInstance.update("none");
     }
-  })
+  });
 
   onCleanup(() => {
-    chartInstance?.destroy()
-  })
+    chartInstance?.destroy();
+  });
 
   function createChart() {
-    if (!canvasRef) return
-    const cats = props.data ?? []
+    if (!canvasRef) return;
+    const cats = props.data ?? [];
 
     chartInstance = new Chart(canvasRef, {
-      type: 'doughnut',
+      type: "doughnut",
       data: {
         labels: cats.map((c) => `${c.icon} ${c.name}`),
         datasets: [
@@ -54,7 +46,7 @@ const DonutChart: Component<Props> = (props) => {
             data: cats.map((c) => c.amount),
             backgroundColor: cats.map((c) => c.color),
             borderWidth: 2,
-            borderColor: '#fff',
+            borderColor: "#fff",
             borderRadius: 4,
             hoverOffset: 6,
           },
@@ -63,29 +55,29 @@ const DonutChart: Component<Props> = (props) => {
       options: {
         responsive: true,
         maintainAspectRatio: true,
-        cutout: '65%',
+        cutout: "65%",
         plugins: {
           legend: { display: false },
           tooltip: {
             callbacks: {
               label: (ctx) => {
-                const val = ctx.parsed
-                return ` ${formatCurrency(val)}`
+                const val = ctx.parsed;
+                return ` ${formatCurrency(val)}`;
               },
             },
-            backgroundColor: '#1E293B',
-            bodyColor: '#fff',
-            bodyFont: { weight: 'bold' },
+            backgroundColor: "#1E293B",
+            bodyColor: "#fff",
+            bodyFont: { weight: "bold" },
             cornerRadius: 8,
             padding: 10,
           },
         },
       },
-    })
+    });
   }
 
   return (
-    <div class="relative" style={{ width: '200px', height: '200px', margin: '0 auto' }}>
+    <div class="relative" style={{ width: "200px", height: "200px", margin: "0 auto" }}>
       <canvas ref={canvasRef} />
       {/* Center label */}
       <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
@@ -95,7 +87,7 @@ const DonutChart: Component<Props> = (props) => {
         </span>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default DonutChart
+export default DonutChart;

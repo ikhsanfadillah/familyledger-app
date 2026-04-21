@@ -1,23 +1,11 @@
-import {
-  type Component,
-  createSignal,
-  createResource,
-  For,
-  createEffect,
-  untrack,
-} from "solid-js";
+import { type Component, createResource, For, createEffect, untrack } from "solid-js";
 import { createForm } from "@tanstack/solid-form";
 import { getCategories } from "~/db/queries";
 import { createBudget, editBudget } from "~/stores/budget.store";
 import { todayISO } from "~/utils/date";
 import type { Category, Budget } from "~/db/schema";
 import { useDrawerContext } from "@ark-ui/solid/drawer";
-import {
-  DrawerBody,
-  DrawerContent,
-  DrawerContentInner,
-  DrawerHeader,
-} from "../ui/drawer";
+import { DrawerBody, DrawerContent, DrawerContentInner, DrawerHeader } from "../ui/drawer";
 
 interface Props {
   /** When set, the modal switches to edit mode */
@@ -124,17 +112,11 @@ const BudgetModal: Component<Props> = (props) => {
                       name={field().name}
                       value={field().state.value}
                       onBlur={field().handleBlur}
-                      onInput={(e) =>
-                        field().handleChange(e.currentTarget.value)
-                      }
+                      onInput={(e) => field().handleChange(e.currentTarget.value)}
                       class="w-full text-2xl font-bold py-3.5 pl-12 pr-4 rounded-xl border-2 outline-none transition-all"
                       style={{
-                        "border-color": field().state.value
-                          ? "#3B82F6"
-                          : "#e5e7eb",
-                        "background-color": field().state.value
-                          ? "#EFF6FF"
-                          : "#fff",
+                        "border-color": field().state.value ? "#3B82F6" : "#e5e7eb",
+                        "background-color": field().state.value ? "#EFF6FF" : "#fff",
                       }}
                       required
                     />
@@ -159,17 +141,12 @@ const BudgetModal: Component<Props> = (props) => {
                           class="flex flex-col items-center gap-1 py-2 px-1 rounded-xl text-xs transition-all"
                           style={{
                             "background-color":
-                              field().state.value === cat.id
-                                ? cat.color + "15"
-                                : "#f8fafc",
+                              field().state.value === cat.id ? cat.color + "15" : "#f8fafc",
                             border:
                               field().state.value === cat.id
                                 ? `2px solid ${cat.color}`
                                 : "2px solid transparent",
-                            transform:
-                              field().state.value === cat.id
-                                ? "scale(1.05)"
-                                : "scale(1)",
+                            transform: field().state.value === cat.id ? "scale(1.05)" : "scale(1)",
                           }}
                           onClick={() => {
                             field().handleChange(cat.id);
@@ -179,10 +156,7 @@ const BudgetModal: Component<Props> = (props) => {
                           <span
                             class="truncate w-full text-center font-medium"
                             style={{
-                              color:
-                                field().state.value === cat.id
-                                  ? cat.color
-                                  : "#6b7280",
+                              color: field().state.value === cat.id ? cat.color : "#6b7280",
                               "font-size": "0.6rem",
                             }}
                           >
@@ -210,17 +184,10 @@ const BudgetModal: Component<Props> = (props) => {
                       class="flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all"
                       style={{
                         "background-color":
-                          field().state.value === "monthly"
-                            ? "#fff"
-                            : "transparent",
-                        color:
-                          field().state.value === "monthly"
-                            ? "#3B82F6"
-                            : "#9ca3af",
+                          field().state.value === "monthly" ? "#fff" : "transparent",
+                        color: field().state.value === "monthly" ? "#3B82F6" : "#9ca3af",
                         "box-shadow":
-                          field().state.value === "monthly"
-                            ? "0 1px 3px rgba(0,0,0,0.1)"
-                            : "none",
+                          field().state.value === "monthly" ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
                       }}
                       onClick={() => field().handleChange("monthly")}
                     >
@@ -231,17 +198,10 @@ const BudgetModal: Component<Props> = (props) => {
                       class="flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all"
                       style={{
                         "background-color":
-                          field().state.value === "weekly"
-                            ? "#fff"
-                            : "transparent",
-                        color:
-                          field().state.value === "weekly"
-                            ? "#3B82F6"
-                            : "#9ca3af",
+                          field().state.value === "weekly" ? "#fff" : "transparent",
+                        color: field().state.value === "weekly" ? "#3B82F6" : "#9ca3af",
                         "box-shadow":
-                          field().state.value === "weekly"
-                            ? "0 1px 3px rgba(0,0,0,0.1)"
-                            : "none",
+                          field().state.value === "weekly" ? "0 1px 3px rgba(0,0,0,0.1)" : "none",
                       }}
                       onClick={() => field().handleChange("weekly")}
                     >
@@ -267,9 +227,7 @@ const BudgetModal: Component<Props> = (props) => {
                       name={field().name}
                       value={field().state.value}
                       onBlur={field().handleBlur}
-                      onInput={(e) =>
-                        field().handleChange(e.currentTarget.value)
-                      }
+                      onInput={(e) => field().handleChange(e.currentTarget.value)}
                       class="w-full py-3 pl-10 pr-4 rounded-xl border-2 border-gray-100 outline-none text-sm transition-all focus:border-primary-300"
                     />
                   </div>
@@ -286,8 +244,7 @@ const BudgetModal: Component<Props> = (props) => {
                   disabled={state()[1] as boolean}
                   class="w-full py-3.5 rounded-xl text-white font-semibold text-sm transition-all active:scale-98 flex items-center justify-center gap-2"
                   style={{
-                    background:
-                      "linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)",
+                    background: "linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)",
                     "box-shadow": "0 4px 16px rgba(59, 130, 246, 0.3)",
                     opacity: (state()[1] as boolean) ? "0.7" : "1",
                   }}

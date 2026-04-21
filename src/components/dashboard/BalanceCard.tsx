@@ -1,5 +1,4 @@
 import type { Component } from "solid-js";
-import { Show } from "solid-js";
 import type { MonthlyTotals } from "~/db/queries";
 import { formatCurrency } from "~/utils/currency";
 
@@ -35,10 +34,7 @@ const BalanceCard: Component<Props> = (props) => {
 
       {/* Balance */}
       <div class="relative z-10">
-        <p
-          class="text-xs font-medium tracking-wide"
-          style={{ color: "rgba(255,255,255,0.7)" }}
-        >
+        <p class="text-xs font-medium tracking-wide" style={{ color: "rgba(255,255,255,0.7)" }}>
           Saldo Bulan Ini
         </p>
         <p
@@ -63,18 +59,13 @@ const BalanceCard: Component<Props> = (props) => {
             class="w-8 h-8 rounded-lg flex items-center justify-center"
             style={{ background: "rgba(16, 185, 129, 0.3)" }}
           >
-            <div
-              class="i-lucide-trending-up text-base"
-              style={{ color: "#6EE7B7" }}
-            />
+            <div class="i-lucide-trending-up text-base" style={{ color: "#6EE7B7" }} />
           </div>
           <div>
             <p class="text-xs" style={{ color: "rgba(255,255,255,0.6)" }}>
               Pemasukan
             </p>
-            <p class="text-sm font-bold tabular-nums">
-              {formatCurrency(income())}
-            </p>
+            <p class="text-sm font-bold tabular-nums">{formatCurrency(income())}</p>
           </div>
         </div>
 
@@ -90,18 +81,13 @@ const BalanceCard: Component<Props> = (props) => {
             class="w-8 h-8 rounded-lg flex items-center justify-center"
             style={{ background: "rgba(239, 68, 68, 0.3)" }}
           >
-            <div
-              class="i-lucide-trending-down text-base"
-              style={{ color: "#FCA5A5" }}
-            />
+            <div class="i-lucide-trending-down text-base" style={{ color: "#FCA5A5" }} />
           </div>
           <div>
             <p class="text-xs" style={{ color: "rgba(255,255,255,0.6)" }}>
               Pengeluaran
             </p>
-            <p class="text-sm font-bold tabular-nums">
-              {formatCurrency(expense())}
-            </p>
+            <p class="text-sm font-bold tabular-nums">{formatCurrency(expense())}</p>
           </div>
         </div>
       </div>

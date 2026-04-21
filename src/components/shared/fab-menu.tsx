@@ -46,9 +46,7 @@ export default function FabMenu(props: { items: FabMenuItem[] }) {
                 class="flex items-center gap-3 transition-all duration-300 ease-out"
                 style={{
                   opacity: isOpen() ? "1" : "0",
-                  transform: isOpen()
-                    ? "translateY(0) scale(1)"
-                    : "translateY(20px) scale(0.8)",
+                  transform: isOpen() ? "translateY(0) scale(1)" : "translateY(20px) scale(0.8)",
                   "transition-delay": isOpen()
                     ? `${(props.items.length - index() - 1) * 40}ms`
                     : "0ms",
