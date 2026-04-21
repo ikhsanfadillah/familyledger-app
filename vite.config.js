@@ -1,12 +1,22 @@
-import { defineConfig } from "vite";
+import { defineConfig } from "vite-plus";
 import solid from "vite-plugin-solid";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import { VitePWA } from "vite-plugin-pwa";
 import UnoCSS from "unocss/vite";
 import Icons from "unplugin-icons/vite";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 export default defineConfig({
+  staged: {
+    "*": "vp check --fix",
+  },
+  lint: { options: { typeAware: true, typeCheck: true } },
+  fmt: {
+    ignorePatterns: [],
+  },
   plugins: [
     UnoCSS(),
     tanstackRouter({

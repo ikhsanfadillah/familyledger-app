@@ -27,24 +27,25 @@
 
 ## Tech stack (locked)
 
-| Layer                     | Library / Tool                              | Version target |
-| ------------------------- | ------------------------------------------- | -------------- |
-| UI framework              | SolidJS                                     | ^1.9           |
-| Base UI components        | Ark UI (`@ark-ui/solid`)                    | ^5.35          |
-| Build tool                | Vite                                        | ^8             |
-| PWA / Service Worker      | vite-plugin-pwa + Workbox                   | latest         |
-| Local database            | Dexie.js (IndexedDB)                        | ^4             |
-| P2P transport             | PeerJS (WebRTC wrapper)                     | ^1.5           |
-| CRDT / sync               | Yjs                                         | ^13            |
-| Styling                   | UnoCSS (utility-first, Tailwind-compatible) | latest         |
-| Component variants        | tailwind-variants                           | ^3.2           |
-| Icons                     | unplugin-icons + iconify                    | latest         |
-| Charts                    | Chart.js (loaded lazily via solid wrapper)  | ^4             |
-| QR pairing                | qrcode + html5-qrcode                       | latest         |
-| Date handling             | date-fns                                    | ^4             |
-| Currency format           | Intl.NumberFormat (built-in, no library)    | —              |
-| Runtime / package manager | Bun                                         | latest         |
-| Testing                   | Bun test (built-in)                         | —              |
+| Layer                  | Library / Tool                              | Version target |
+| ---------------------- | ------------------------------------------- | -------------- |
+| UI framework           | SolidJS                                     | ^1.9           |
+| Base UI components     | Ark UI (`@ark-ui/solid`)                    | ^5.35          |
+| Build tool             | Vite+                                       | latest         |
+| PWA / Service Worker   | vite-plugin-pwa + Workbox                   | latest         |
+| Local database         | Dexie.js (IndexedDB)                        | ^4             |
+| P2P transport          | PeerJS (WebRTC wrapper)                     | ^1.5           |
+| CRDT / sync            | Yjs                                         | ^13            |
+| Styling                | UnoCSS (utility-first, Tailwind-compatible) | latest         |
+| Component variants     | tailwind-variants                           | ^3.2           |
+| Icons                  | unplugin-icons + iconify                    | latest         |
+| Charts                 | Chart.js (loaded lazily via solid wrapper)  | ^4             |
+| QR pairing             | qrcode + html5-qrcode                       | latest         |
+| Date handling          | date-fns                                    | ^4             |
+| Currency format        | Intl.NumberFormat (built-in, no library)    | —              |
+| CLI Toolchain          | Vite+ (`vp`)                                | latest         |
+| Package Manager Engine | Bun (wrapped by Vite+)                      | latest         |
+| Testing                | Vite+ bundled Vitest                        | latest         |
 
 ---
 
@@ -54,7 +55,7 @@
 familyledger/
 ├── AGENT.md                  ← this file, always read first
 ├── package.json
-├── bun.lockb                 ← Bun lockfile, commit this
+├── bun.lock                  ← Bun lockfile, commit this
 ├── vite.config.ts
 ├── tsconfig.json
 ├── index.html
@@ -272,19 +273,19 @@ All custom UI components are built on top of **Ark UI** (`@ark-ui/solid`). Ark U
 4. New components go in `src/components/` — never inline large components in pages
 5. All async operations must handle offline errors gracefully — show user-friendly message, queue for retry
 6. Never delete a synced record from IndexedDB — set `deleted: true` instead
-7. Run `bun run typecheck` mentally before finalising — no TypeScript errors acceptable
+7. Run `vp check` mentally before finalising — no TypeScript errors acceptable
 
 ---
 
 ## Commands
 
 ```bash
-bun install         # install dependencies
-bun dev             # dev server with PWA hot reload
-bun run build       # production build
-bun run preview     # preview production build locally
-bun run typecheck   # tsc --noEmit
-bun test            # bun built-in test runner
+vp install          # install dependencies
+vp dev              # dev server with PWA hot reload
+vp build            # production build
+vp preview          # preview production build locally
+vp check            # run format, lint, and TypeScript type checks
+vp test             # run tests and validate changes
 ```
 
 ---
