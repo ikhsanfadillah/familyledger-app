@@ -31,7 +31,7 @@ class SyncService {
     // WebRTC connection
     // We use the ledgerKey as the secure room name so only people with the key can find the room.
     this.provider = new WebrtcProvider(`fl-room-${ledgerKey}`, this.ydoc, {
-      signaling: ["wss://signaling.yjs.dev", "wss://y-webrtc-signaling-eu.herokuapp.com"],
+      signaling: ["ws://localhost:4444"],
     });
 
     this.provider.awareness.on("change", () => {

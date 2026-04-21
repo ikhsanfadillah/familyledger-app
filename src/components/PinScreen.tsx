@@ -21,6 +21,7 @@ export const PinScreen: Component = () => {
     try {
       await initDb(pin());
       await ledgerStore.unlockDb();
+      console.log("123123", 123123);
     } catch (err) {
       console.error(err);
       setError("Failed to unlock database. Incorrect PIN or corrupted data.");

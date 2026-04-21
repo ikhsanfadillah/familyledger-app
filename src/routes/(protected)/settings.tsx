@@ -26,7 +26,7 @@ function SettingsPage() {
   };
 
   return (
-    <div class="pb-24">
+    <div class="">
       <div class="flex items-center gap-2 mb-5">
         <div class="i-lucide-settings text-blue-600 text-xl" />
         <h1 class="text-xl font-bold text-gray-900">Pengaturan</h1>
