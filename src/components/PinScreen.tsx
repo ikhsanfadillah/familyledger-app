@@ -36,7 +36,7 @@ export const PinScreen: Component = () => {
           replace: true,
         });
       }
-    } catch (err) {
+    } catch {
       setError("Failed to unlock database. Incorrect PIN or corrupted data.");
     } finally {
       setIsSubmitting(false);
