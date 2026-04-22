@@ -1,12 +1,14 @@
-import { createSignal, Show, type Component } from "solid-js";
+import { batch, createSignal, Show, type Component } from "solid-js";
 import { initDb } from "~/db/schema";
 import { ledgerStore } from "~/stores/ledgerStore";
 import { Button } from "./ui/button";
+import { useNavigate } from "@tanstack/solid-router";
 
 export const PinScreen: Component = () => {
   const [pin, setPin] = createSignal("");
   const [error, setError] = createSignal("");
   const [isSubmitting, setIsSubmitting] = createSignal(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: Event) => {
     e.preventDefault();
@@ -15,15 +17,26 @@ export const PinScreen: Component = () => {
       return;
     }
 
-    setIsSubmitting(true);
-    setError("");
+    batch(() => {
+      setIsSubmitting(true);
+      setError("");
+    });
 
     try {
       await initDb(pin());
       await ledgerStore.unlockDb();
-      console.log("123123", 123123);
+      if (ledgerStore.hasUser()) {
+        navigate({
+          to: "/transactions",
+          replace: true,
+        });
+      } else {
+        navigate({
+          to: "/onboarding",
+          replace: true,
+        });
+      }
     } catch (err) {
-      console.error(err);
       setError("Failed to unlock database. Incorrect PIN or corrupted data.");
     } finally {
       setIsSubmitting(false);

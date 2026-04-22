@@ -192,7 +192,6 @@ export async function initDb(pin: string) {
     keyMaterial,
     256,
   );
-  console.log("111", 111);
 
   _masterKey = new Uint8Array(derivedBits);
 
@@ -208,15 +207,12 @@ export async function initDb(pin: string) {
     },
     async () => {},
   );
-  console.log("222", 222);
 
   // 3. Open CoreDB
   await coreDb.open();
-  console.log("333", 333);
 
   // 4. Pre-upgrade all ledger DBs
   const ledgers = await coreDb.ledgers.toArray();
-  console.log("444", 444);
 
   for (const ledger of ledgers) {
     const tempDb = new LedgerDB(ledger.id);
@@ -237,11 +233,8 @@ export async function initDb(pin: string) {
     );
     // Open triggers schema upgrades if any, then close immediately
     await tempDb.open();
-    console.log(555, "ledger", ledger);
-
     tempDb.close();
   }
-  console.log("666", 666);
   isInitialized = true;
 }
 

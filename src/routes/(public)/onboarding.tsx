@@ -30,7 +30,7 @@ function OnboardingPage() {
 
   const location = useLocation();
 
-  if (!ledgerStore.hasUser() && location().pathname !== "/onboarding") {
+  if (ledgerStore.hasUser() && location().pathname !== "/onboarding") {
     navigate({
       to: "/transactions",
       replace: true, // Gunakan replace agar tidak memenuhi history browser

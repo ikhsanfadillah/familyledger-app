@@ -1,5 +1,5 @@
 import { Outlet, createFileRoute, redirect, useNavigate } from "@tanstack/solid-router";
-import { type Component, createSignal, onMount } from "solid-js";
+import { type Component, createEffect, createSignal, onMount } from "solid-js";
 import { syncService } from "~/services/sync.service";
 import FabMenu from "~/components/shared/fab-menu";
 import TransactionModal from "~/components/transaction/TransactionModal";
@@ -26,9 +26,12 @@ export { editingTransaction, setEditingTransaction, editingBudget, setEditingBud
 const RootLayout: Component = () => {
   const navigate = useNavigate();
 
+  // createEffect(() => {
+  //   ledgerStore.activeLedger();
+  // });
+
   onMount(() => {
     syncService.init();
-
     // Listen for Service Worker messages
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.addEventListener("message", (event) => {
