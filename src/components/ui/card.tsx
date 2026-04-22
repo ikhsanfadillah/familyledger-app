@@ -39,7 +39,7 @@ const cardMediaVariants = tv({
 });
 
 interface CardMediaProps
-  extends ComponentProps<typeof ark.div>, VariantProps<typeof cardMediaVariants> { }
+  extends ComponentProps<typeof ark.div>, VariantProps<typeof cardMediaVariants> {}
 
 export const CardMedia = (props: CardMediaProps) => {
   const [local, rest] = splitProps(mergeProps({ variant: "default" as const }, props), [

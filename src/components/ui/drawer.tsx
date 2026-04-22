@@ -288,7 +288,7 @@ export const DrawerHeader = (props: DrawerHeaderProps) => {
     <ark.div
       class={cn(
         "flex flex-col gap-2",
-        "p-(--space) pt-3",
+        "p-(--space) pt-4",
         "in-[[data-slot=drawer-content]:has([data-slot=drawer-body])]:pb-3",
         classProps.class,
       )}
@@ -297,9 +297,7 @@ export const DrawerHeader = (props: DrawerHeaderProps) => {
     >
       {!!props.title && <DrawerTitle class="px-4">{props.title}</DrawerTitle>}
 
-      {!!props.description && (
-        <DrawerDescription class="px-4">{props.description}</DrawerDescription>
-      )}
+      {!!props.description && <DrawerDescription>{props.description}</DrawerDescription>}
 
       {!props.title && typeof props.children === "string" ? (
         <DrawerTitle>{props.children}</DrawerTitle>

@@ -1,4 +1,4 @@
-import { Outlet, createFileRoute, useNavigate } from "@tanstack/solid-router";
+import { Outlet, createFileRoute, redirect, useNavigate } from "@tanstack/solid-router";
 import { type Component, createSignal, onMount } from "solid-js";
 import { syncService } from "~/services/sync.service";
 import FabMenu from "~/components/shared/fab-menu";
@@ -49,7 +49,9 @@ const RootLayout: Component = () => {
         <div class="flex items-center gap-2">
           <div
             class="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold"
-            style={{ "background-color": ledgerStore.activeLedger()?.themeColor || "#3b82f6" }}
+            style={{
+              "background-color": ledgerStore.activeLedger()?.themeColor || "#3b82f6",
+            }}
           >
             {ledgerStore.activeLedger()?.name.charAt(0) || "L"}
           </div>
@@ -69,7 +71,8 @@ const RootLayout: Component = () => {
             class={`w-2 h-2 rounded-full ${ledgerStore.connectedPeers() > 0 ? "bg-emerald-500 animate-pulse" : "bg-slate-300"}`}
           />
           <span class="text-[0.7rem] font-medium text-slate-600">
-            {ledgerStore.connectedPeers()} peer{ledgerStore.connectedPeers() !== 1 ? "s" : ""}
+            {ledgerStore.connectedPeers()} peer
+            {ledgerStore.connectedPeers() !== 1 ? "s" : ""}
           </span>
         </div>
       </header>

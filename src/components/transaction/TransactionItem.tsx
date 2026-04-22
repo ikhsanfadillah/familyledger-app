@@ -24,7 +24,7 @@ const TransactionItem: Component<Props> = (props) => {
   onMount(() => {
     if (!devicesLoaded) {
       devicesLoaded = true;
-      getDeviceMap().then(setDevices);
+      void getDeviceMap().then(setDevices);
     }
   });
 

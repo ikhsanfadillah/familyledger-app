@@ -1,12 +1,13 @@
-import { createFileRoute, useNavigate } from "@tanstack/solid-router";
+import { createFileRoute, useLocation, useNavigate, useRouter } from "@tanstack/solid-router";
 import { createSignal, For, Show } from "solid-js";
 import { createUser, saveCategories, seedAccountGroups, seedAccounts } from "~/db/queries";
 import { DEFAULT_CATEGORIES } from "~/constants/categories";
 import { DEFAULT_ACCOUNT_GROUPS, DEFAULT_ACCOUNTS } from "~/constants/accounts";
 import { Button } from "~/components/ui/button";
 import { useStep } from "~/hooks/use-step";
+import { ledgerStore } from "~/stores/ledgerStore";
 
-export const Route = createFileRoute("/onboarding")({
+export const Route = createFileRoute("/(public)/onboarding")({
   component: OnboardingPage,
 });
 
@@ -27,6 +28,15 @@ function OnboardingPage() {
     new Set(DEFAULT_CATEGORIES.map((c) => c.id)),
   );
 
+  const location = useLocation();
+
+  if (!ledgerStore.hasUser() && location().pathname !== "/onboarding") {
+    navigate({
+      to: "/transactions",
+      replace: true, // Gunakan replace agar tidak memenuhi history browser
+    });
+  }
+
   const toggleCategory = (id: string) => {
     setSelectedCategories((prev) => {
       const next = new Set(prev);
@@ -43,18 +53,23 @@ function OnboardingPage() {
     if (fullName().trim() === "") return;
 
     // 1. Create User
+    console.log("11", 111);
     await createUser(fullName().trim(), gender());
+    console.log("22", 111);
 
     // 2. Save Selected Categories
     const categoriesToSave = DEFAULT_CATEGORIES.filter((c) => selectedCategories().has(c.id));
+    console.log("33", 111);
     await saveCategories(categoriesToSave);
 
+    console.log("44", 111);
     // 3. Seed default account groups and accounts
+    console.log("55", 111);
     await seedAccountGroups(DEFAULT_ACCOUNT_GROUPS);
+    console.log("66", 111);
     await seedAccounts(DEFAULT_ACCOUNTS);
-
-    // 4. Navigate to Transactions
-    navigate({ to: "/transactions" });
+    console.log("77", 111);
+    navigate({ to: "/transactions", replace: true });
   };
 
   return (

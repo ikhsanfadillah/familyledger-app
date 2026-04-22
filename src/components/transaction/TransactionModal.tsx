@@ -163,17 +163,27 @@ const TransactionModal: Component<Props> = (props) => {
           form.handleSubmit();
         }}
       >
-        <DrawerContentInner
-          class="grid grid-rows-[auto_1fr_auto] min-h-full"
-        >
+        <DrawerContentInner class="grid grid-rows-[auto_1fr_auto] min-h-full p-0">
           <DrawerHeader
             title={isEditing() ? "Edit Transaksi" : "Tambah Transaksi"}
             description={
-              <div class="flex rounded divide-x">
+              <div class="flex rounded divide-x mt-2">
                 {[
-                  { icon: "i-lucide-trending-down", label: "Pengeluaran", type: "expense" },
-                  { icon: "i-lucide-trending-up", label: "Pemasukan", type: "income" },
-                  { icon: "i-lucide-arrow-right-left", label: "Transfer", type: "transfer" },
+                  {
+                    icon: "i-lucide-trending-down",
+                    label: "Pengeluaran",
+                    type: "expense",
+                  },
+                  {
+                    icon: "i-lucide-trending-up",
+                    label: "Pemasukan",
+                    type: "income",
+                  },
+                  {
+                    icon: "i-lucide-arrow-right-left",
+                    label: "Transfer",
+                    type: "transfer",
+                  },
                 ].map((item) => (
                   <button
                     type="button"

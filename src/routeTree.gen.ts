@@ -9,9 +9,10 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as publicRouteRouteImport } from './routes/(public)/route'
 import { Route as protectedRouteRouteImport } from './routes/(protected)/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as publicOnboardingRouteImport } from './routes/(public)/onboarding'
 import { Route as protectedTransactionsRouteImport } from './routes/(protected)/transactions'
 import { Route as protectedSyncRouteImport } from './routes/(protected)/sync'
 import { Route as protectedSettingsRouteImport } from './routes/(protected)/settings'
@@ -20,9 +21,8 @@ import { Route as protectedLedgersRouteImport } from './routes/(protected)/ledge
 import { Route as protectedDashboardRouteImport } from './routes/(protected)/dashboard'
 import { Route as protectedBudgetsRouteImport } from './routes/(protected)/budgets'
 
-const OnboardingRoute = OnboardingRouteImport.update({
-  id: '/onboarding',
-  path: '/onboarding',
+const publicRouteRoute = publicRouteRouteImport.update({
+  id: '/(public)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const protectedRouteRoute = protectedRouteRouteImport.update({
@@ -33,6 +33,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const publicOnboardingRoute = publicOnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => publicRouteRoute,
 } as any)
 const protectedTransactionsRoute = protectedTransactionsRouteImport.update({
   id: '/transactions',
@@ -72,7 +77,6 @@ const protectedBudgetsRoute = protectedBudgetsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/onboarding': typeof OnboardingRoute
   '/budgets': typeof protectedBudgetsRoute
   '/dashboard': typeof protectedDashboardRoute
   '/ledgers': typeof protectedLedgersRoute
@@ -80,10 +84,10 @@ export interface FileRoutesByFullPath {
   '/settings': typeof protectedSettingsRoute
   '/sync': typeof protectedSyncRoute
   '/transactions': typeof protectedTransactionsRoute
+  '/onboarding': typeof publicOnboardingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/onboarding': typeof OnboardingRoute
   '/budgets': typeof protectedBudgetsRoute
   '/dashboard': typeof protectedDashboardRoute
   '/ledgers': typeof protectedLedgersRoute
@@ -91,12 +95,13 @@ export interface FileRoutesByTo {
   '/settings': typeof protectedSettingsRoute
   '/sync': typeof protectedSyncRoute
   '/transactions': typeof protectedTransactionsRoute
+  '/onboarding': typeof publicOnboardingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/(protected)': typeof protectedRouteRouteWithChildren
-  '/onboarding': typeof OnboardingRoute
+  '/(public)': typeof publicRouteRouteWithChildren
   '/(protected)/budgets': typeof protectedBudgetsRoute
   '/(protected)/dashboard': typeof protectedDashboardRoute
   '/(protected)/ledgers': typeof protectedLedgersRoute
@@ -104,12 +109,12 @@ export interface FileRoutesById {
   '/(protected)/settings': typeof protectedSettingsRoute
   '/(protected)/sync': typeof protectedSyncRoute
   '/(protected)/transactions': typeof protectedTransactionsRoute
+  '/(public)/onboarding': typeof publicOnboardingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/onboarding'
     | '/budgets'
     | '/dashboard'
     | '/ledgers'
@@ -117,10 +122,10 @@ export interface FileRouteTypes {
     | '/settings'
     | '/sync'
     | '/transactions'
+    | '/onboarding'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/onboarding'
     | '/budgets'
     | '/dashboard'
     | '/ledgers'
@@ -128,11 +133,12 @@ export interface FileRouteTypes {
     | '/settings'
     | '/sync'
     | '/transactions'
+    | '/onboarding'
   id:
     | '__root__'
     | '/'
     | '/(protected)'
-    | '/onboarding'
+    | '/(public)'
     | '/(protected)/budgets'
     | '/(protected)/dashboard'
     | '/(protected)/ledgers'
@@ -140,21 +146,22 @@ export interface FileRouteTypes {
     | '/(protected)/settings'
     | '/(protected)/sync'
     | '/(protected)/transactions'
+    | '/(public)/onboarding'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   protectedRouteRoute: typeof protectedRouteRouteWithChildren
-  OnboardingRoute: typeof OnboardingRoute
+  publicRouteRoute: typeof publicRouteRouteWithChildren
 }
 
 declare module '@tanstack/solid-router' {
   interface FileRoutesByPath {
-    '/onboarding': {
-      id: '/onboarding'
-      path: '/onboarding'
-      fullPath: '/onboarding'
-      preLoaderRoute: typeof OnboardingRouteImport
+    '/(public)': {
+      id: '/(public)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof publicRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(protected)': {
@@ -170,6 +177,13 @@ declare module '@tanstack/solid-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/(public)/onboarding': {
+      id: '/(public)/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof publicOnboardingRouteImport
+      parentRoute: typeof publicRouteRoute
     }
     '/(protected)/transactions': {
       id: '/(protected)/transactions'
@@ -247,10 +261,22 @@ const protectedRouteRouteWithChildren = protectedRouteRoute._addFileChildren(
   protectedRouteRouteChildren,
 )
 
+interface publicRouteRouteChildren {
+  publicOnboardingRoute: typeof publicOnboardingRoute
+}
+
+const publicRouteRouteChildren: publicRouteRouteChildren = {
+  publicOnboardingRoute: publicOnboardingRoute,
+}
+
+const publicRouteRouteWithChildren = publicRouteRoute._addFileChildren(
+  publicRouteRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   protectedRouteRoute: protectedRouteRouteWithChildren,
-  OnboardingRoute: OnboardingRoute,
+  publicRouteRoute: publicRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

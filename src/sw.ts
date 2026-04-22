@@ -26,8 +26,8 @@ self.addEventListener("sync", (event: any) => {
 });
 
 // Listen for messages from the main app
-self.addEventListener("message", (event) => {
+self.addEventListener("message", async (event) => {
   if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting();
+    await self.skipWaiting();
   }
 });
