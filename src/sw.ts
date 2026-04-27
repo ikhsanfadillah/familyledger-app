@@ -14,7 +14,6 @@ clientsClaim();
 // Background Sync functionality
 self.addEventListener("sync", (event: any) => {
   if (event.tag === "sync-data") {
-    console.log("[SW] Background sync triggered");
     event.waitUntil(
       self.clients.matchAll().then((clients) => {
         clients.forEach((client) => {
